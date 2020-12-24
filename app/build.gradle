@@ -8,7 +8,7 @@ android {
 
 
     defaultConfig {
-        applicationId "io.rosati.anishuu"
+        applicationId "com.anishuu"
         minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
@@ -40,6 +40,8 @@ dependencies {
 
     // Room components
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 

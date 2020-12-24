@@ -1,4 +1,4 @@
-package io.rosati.anishuu
+package com.anishuu
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+import com.rosati.anishuu.R
 
 class MediaListActivity : AppCompatActivity() {
 

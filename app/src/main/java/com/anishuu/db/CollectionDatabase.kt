@@ -1,12 +1,12 @@
-package io.rosati.anishuu.db
+package com.anishuu.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import io.rosati.anishuu.db.manga.Manga
-import io.rosati.anishuu.db.manga.MangaDao
+import com.anishuu.db.manga.Manga
+import com.anishuu.db.manga.MangaDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -45,7 +45,11 @@ public abstract class CollectionDatabase : RoomDatabase() {
                     context.applicationContext,
                     CollectionDatabase::class.java,
                     "word_database"
-                ).addCallback(CollectionDatabaseCallback(scope)).build()
+                ).addCallback(
+                    CollectionDatabaseCallback(
+                        scope
+                    )
+                ).build()
                 INSTANCE = instance
                 instance
             }

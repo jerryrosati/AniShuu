@@ -1,4 +1,4 @@
-package io.rosati.anishuu.db.manga
+package com.anishuu.db.manga
 
 import androidx.room.Dao
 import androidx.room.Insert

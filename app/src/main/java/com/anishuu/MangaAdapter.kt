@@ -1,4 +1,4 @@
-package io.rosati.anishuu
+package com.anishuu
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
-import io.rosati.anishuu.db.manga.Manga
-import io.rosati.anishuu.MangaAdapter.MangaViewHolder
+import com.anishuu.db.manga.Manga
+import com.anishuu.MangaAdapter.MangaViewHolder
+import com.rosati.anishuu.R
 
-class MangaAdapter : ListAdapter<Manga, MangaViewHolder>(MangaComparator()) {
+class MangaAdapter : ListAdapter<Manga, MangaViewHolder>(
+    MangaComparator()
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
         return MangaViewHolder.create(parent)
     }

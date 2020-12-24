@@ -1,8 +1,8 @@
-package io.rosati.anishuu
+package com.anishuu
 
 import android.app.Application
-import io.rosati.anishuu.db.CollectionDatabase
-import io.rosati.anishuu.db.manga.MangaRepository
+import com.anishuu.db.CollectionDatabase
+import com.anishuu.db.manga.MangaRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

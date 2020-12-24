@@ -1,4 +1,4 @@
-package io.rosati.anishuu
+package com.anishuu
 
 import org.junit.Test
 

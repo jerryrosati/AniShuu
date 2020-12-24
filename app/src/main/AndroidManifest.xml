@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.rosati.anishuu">
+    package="com.rosati.anishuu">
 
     <application
-        android:name=".AnishuuApplication"
+        android:name="com.anishuu.AnishuuApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MediaListActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.anishuu.MediaListActivity"
+            android:parentActivityName="com.anishuu.MainActivity" />
+        <activity android:name="com.anishuu.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

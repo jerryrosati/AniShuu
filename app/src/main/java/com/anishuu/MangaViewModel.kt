@@ -1,8 +1,8 @@
-package io.rosati.anishuu
+package com.anishuu
 
 import androidx.lifecycle.*
-import io.rosati.anishuu.db.manga.Manga
-import io.rosati.anishuu.db.manga.MangaRepository
+import com.anishuu.db.manga.Manga
+import com.anishuu.db.manga.MangaRepository
 import kotlinx.coroutines.launch
 
 class MangaViewModel(private val repository: MangaRepository) : ViewModel() {

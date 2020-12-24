@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/collection_dest"
-        android:name="io.rosati.anishuu.CollectionFragment"
+        android:name="com.anishuu.CollectionFragment"
         android:label="fragment_collection"
         tools:layout="@layout/fragment_collection" />-->
 </navigation>

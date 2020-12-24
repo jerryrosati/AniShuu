@@ -1,4 +1,4 @@
-package io.rosati.anishuu
+package com.anishuu
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.rosati.anishuu.db.manga.Manga
+import com.anishuu.db.manga.Manga
+import com.rosati.anishuu.R
 
 class MainActivity : AppCompatActivity() {
     private val newWordActivityRequestCode = 1
