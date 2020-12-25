@@ -9,5 +9,5 @@ import kotlinx.coroutines.SupervisorJob
 class AnishuuApplication : Application() {
     val applicationScope = CoroutineScope(SupervisorJob())
     val database by lazy { CollectionDatabase.getDatabase(this, applicationScope) }
-    val repository by lazy { MangaRepository(database.mangaDao()) }
+    val repository by lazy { MangaRepository(database.mangaDao(), database.volumeDao()) }
 }

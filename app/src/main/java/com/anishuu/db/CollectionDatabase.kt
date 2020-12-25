@@ -5,31 +5,32 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.anishuu.db.manga.Manga
-import com.anishuu.db.manga.MangaDao
+import com.anishuu.db.manga.MangaSeriesDao
+import com.anishuu.db.manga.MangaSeries
+import com.anishuu.db.manga.MangaVolume
+import com.anishuu.db.manga.MangaVolumeDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Manga::class), version = 1, exportSchema = false)
-public abstract class CollectionDatabase : RoomDatabase() {
-    abstract fun mangaDao(): MangaDao
+@Database(entities = [MangaSeries::class, MangaVolume::class], version = 1, exportSchema = false)
+abstract class CollectionDatabase : RoomDatabase() {
+    abstract fun mangaDao(): MangaSeriesDao
+    abstract fun volumeDao(): MangaVolumeDao
 
-    private class CollectionDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
-
+    private class CollectionDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDatabase(database.mangaDao())
+                    populateDatabase(database.mangaDao(), database.volumeDao())
                 }
             }
         }
 
-        suspend fun populateDatabase(mangaDao: MangaDao) {
+        suspend fun populateDatabase(mangaDao: MangaSeriesDao, volumeDao: MangaVolumeDao) {
             // Delete all content in the database.
             mangaDao.deleteAll()
+            volumeDao.deleteAll()
         }
     }
 
@@ -41,15 +42,9 @@ public abstract class CollectionDatabase : RoomDatabase() {
         fun getDatabase(context: Context, scope: CoroutineScope): CollectionDatabase {
             // If the instance is not null, return it. Otherwise, create the database.
             return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    CollectionDatabase::class.java,
-                    "word_database"
-                ).addCallback(
-                    CollectionDatabaseCallback(
-                        scope
-                    )
-                ).build()
+                val instance = Room.databaseBuilder(context.applicationContext, CollectionDatabase::class.java,"word_database")
+                    .addCallback(CollectionDatabaseCallback(scope))
+                    .build()
                 INSTANCE = instance
                 instance
             }

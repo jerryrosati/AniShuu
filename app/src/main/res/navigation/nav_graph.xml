@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation>
-<!--<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/collection_dest">
 
-
     <fragment
         android:id="@+id/collection_dest"
-        android:name="com.anishuu.CollectionFragment"
+        android:name="com.anishuu.ui.collection.CollectionFragment"
         android:label="fragment_collection"
-        tools:layout="@layout/fragment_collection" />-->
+        tools:layout="@layout/fragment_collection">
+        <action
+            android:id="@+id/next_action"
+            app:destination="@id/update_collection_dest" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/update_collection_dest"
+        android:name="com.anishuu.ui.collection.UpdateCollectionFragment"
+        android:label="fragment_update_collection"
+        tools:layout="@layout/fragment_update_collection">
+        <action
+            android:id="@+id/next_action"
+            app:popUpTo="@id/collection_dest" />
+    </fragment>
+
 </navigation>

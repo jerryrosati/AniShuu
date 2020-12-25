@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
@@ -11,16 +12,15 @@ import com.anishuu.db.manga.Manga
 import com.anishuu.MangaAdapter.MangaViewHolder
 import com.rosati.anishuu.R
 
-class MangaAdapter : ListAdapter<Manga, MangaViewHolder>(
-    MangaComparator()
-) {
+class MangaAdapter(private val listener: (Manga) -> Unit) : ListAdapter<Manga, MangaViewHolder>(MangaComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
         return MangaViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: MangaViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.word)
+        holder.bind(current.series.title)
+        holder.itemView.setOnClickListener { listener(current) }
     }
 
     class MangaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,7 +45,7 @@ class MangaAdapter : ListAdapter<Manga, MangaViewHolder>(
         }
 
         override fun areContentsTheSame(oldItem: Manga, newItem: Manga): Boolean {
-            return oldItem.word == newItem.word
+            return oldItem.series.title == newItem.series.title
         }
     }
 }
