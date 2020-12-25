@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.anishuu.*
@@ -29,7 +31,13 @@ class CollectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview)
         val adapter = MangaAdapter() { manga ->
-
+            val series = manga.series
+            val action = CollectionFragmentDirections.viewSeries(series.numVolumes,
+                series.language,
+                series.author,
+                series.publisher,
+                series.notes)
+            findNavController().navigate(action)
         }
 
         val mangaViewModel: MangaViewModel by viewModels {
