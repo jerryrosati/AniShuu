@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
 import com.anishuu.db.manga.Manga
 import com.anishuu.MangaAdapter.MangaViewHolder
-import com.rosati.anishuu.R
 
 class MangaAdapter(private val listener: (Manga) -> Unit) : ListAdapter<Manga, MangaViewHolder>(MangaComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {

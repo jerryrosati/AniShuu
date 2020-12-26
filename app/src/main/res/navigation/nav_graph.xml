@@ -10,7 +10,7 @@
         android:id="@+id/collection_dest"
         android:name="com.anishuu.ui.collection.CollectionFragment"
         android:label="fragment_collection"
-        tools:layout="@layout/fragment_collection">
+        tools:layout="@layout/collection_fragment">
         <action
             android:id="@+id/next_action"
             app:destination="@id/update_collection_dest" />
@@ -25,7 +25,7 @@
         android:id="@+id/update_collection_dest"
         android:name="com.anishuu.ui.collection.UpdateCollectionFragment"
         android:label="fragment_update_collection"
-        tools:layout="@layout/fragment_update_collection">
+        tools:layout="@layout/update_collection_fragment">
 
         <action
             android:id="@+id/next_action"
@@ -37,7 +37,7 @@
         android:id="@+id/view_series_details_dest"
         android:name="com.anishuu.ui.collection.ViewSeriesDetailsFragment"
         android:label="fragment_view_series_details"
-        tools:layout="@layout/fragment_view_series_details">
+        tools:layout="@layout/view_series_details_fragment">
         <argument
             android:name="numVolumes"
             app:argType="integer"

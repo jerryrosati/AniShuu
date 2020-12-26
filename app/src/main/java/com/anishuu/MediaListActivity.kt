@@ -2,7 +2,7 @@ package com.anishuu
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.rosati.anishuu.R
+import com.anishuu.R
 
 class MediaListActivity : AppCompatActivity() {
 

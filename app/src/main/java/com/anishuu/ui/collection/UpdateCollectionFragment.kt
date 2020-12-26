@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,47 +15,42 @@ import com.anishuu.MangaViewModelFactory
 import com.anishuu.db.CollectionDatabase
 import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
-import com.rosati.anishuu.R
+import com.anishuu.R
+import com.anishuu.databinding.UpdateCollectionFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 class UpdateCollectionFragment : Fragment() {
-    private lateinit var titleEditView: EditText
-    private lateinit var numVolumeEditView: EditText
-    private lateinit var languageEditView: EditText
-    private lateinit var authorEditView: EditText
-    private lateinit var publisherEditView: EditText
-    private lateinit var notesEditView: EditText
+    private lateinit var binding: UpdateCollectionFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.update_collection_fragment,
+            container,
+            false)
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_update_collection, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val mangaViewModel: MangaViewModel by viewModels {
-            MangaViewModelFactory(CollectionDatabase.getDatabase(view.context, CoroutineScope(SupervisorJob())))
+            MangaViewModelFactory(CollectionDatabase.getDatabase(view.context,
+                CoroutineScope(SupervisorJob())))
         }
 
-        titleEditView = view.findViewById(R.id.title_entry)
-        numVolumeEditView = view.findViewById(R.id.num_volumes_entry)
-        languageEditView = view.findViewById(R.id.language_entry)
-        authorEditView = view.findViewById(R.id.author_entry)
-        publisherEditView = view.findViewById(R.id.publisher_entry)
-        notesEditView = view.findViewById(R.id.notes_entry)
-
-        val button = view.findViewById<Button>(R.id.button_save)
-        button.setOnClickListener {
-            val title = titleEditView.text.toString()
-            val numVolumes = numVolumeEditView.text.toString().toInt()
-            val language = languageEditView.text.toString()
-            val author = authorEditView.text.toString()
-            val publisher = publisherEditView.text.toString()
-            val notes = notesEditView.text.toString()
+        binding.buttonSave.setOnClickListener {
+            val title = binding.titleEntry.text.toString()
+            val numVolumes = binding.numVolumesEntry.text.toString().toInt()
+            val language = binding.languageEntry.text.toString()
+            val author = binding.authorEntry.text.toString()
+            val publisher = binding.publisherEntry.text.toString()
+            val notes = binding.notesEntry.text.toString()
 
             // Add the series to the database.
             val series = MangaSeries(title, numVolumes, language, author, publisher, notes)
