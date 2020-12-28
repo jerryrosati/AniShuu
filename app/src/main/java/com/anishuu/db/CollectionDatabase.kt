@@ -12,7 +12,7 @@ import com.anishuu.db.manga.MangaVolumeDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [MangaSeries::class, MangaVolume::class], version = 1, exportSchema = false)
+@Database(entities = [MangaSeries::class, MangaVolume::class], version = 2, exportSchema = false)
 abstract class CollectionDatabase : RoomDatabase() {
     abstract fun mangaDao(): MangaSeriesDao
     abstract fun volumeDao(): MangaVolumeDao
@@ -44,6 +44,7 @@ abstract class CollectionDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext, CollectionDatabase::class.java,"word_database")
                     .addCallback(CollectionDatabaseCallback(scope))
+                    .fallbackToDestructiveMigration() // TODO 12/28/2020: Add proper migrations.
                     .build()
                 INSTANCE = instance
                 instance

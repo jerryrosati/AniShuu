@@ -48,6 +48,8 @@ class ViewSeriesDetailsFragment : Fragment() {
             binding.authorText.text = getString(R.string.manga_details_author, series.author)
             binding.publisherText.text = getString(R.string.manga_details_publisher, series.publisher)
             binding.notesText.text = getString(R.string.manga_details_notes, series.notes)
+            binding.volumesOwnedText.text = getString(R.string.manga_details_volumes_owned,
+                manga.volumes.filter { it.owned }.joinToString(", ") { it.volumeNum.toString() })
         })
     }
 }

@@ -11,6 +11,8 @@
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Manga not saved because it is empty.</string>
     <string name="add_manga">Add Manga</string>
+    <string name="volume_number">Volume %d</string>
+    <string name="title_required">Title is required to save manga</string>
 
     <!-- Manga Details screen -->
     <string name="manga_details_num_volumes">Number of volumes: %d</string>
@@ -18,4 +20,5 @@
     <string name="manga_details_author">Author: %s</string>
     <string name="manga_details_publisher">Publisher: %s</string>
     <string name="manga_details_notes">Notes: %s</string>
+    <string name="manga_details_volumes_owned">Volumes owned: %s</string>
 </resources>

@@ -1,84 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
-        android:orientation="vertical"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/title_entry"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_height"
-            android:fontFamily="sans-serif-light"
-            android:hint="@string/hint_title"
-            android:inputType="textAutoComplete"
-            android:layout_margin="@dimen/big_padding"
-            android:textSize="18sp" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/num_volumes_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_height"
-            android:fontFamily="sans-serif-light"
-            android:hint="@string/hint_number_volumes"
-            android:inputType="number"
-            android:layout_margin="@dimen/big_padding"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/title_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/hint_title"
+                android:inputType="textAutoComplete"
+                android:layout_margin="@dimen/big_padding"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <EditText
-            android:id="@+id/language_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_height"
-            android:fontFamily="sans-serif-light"
-            android:hint="@string/hint_language"
-            android:inputType="textAutoComplete"
-            android:layout_margin="@dimen/big_padding"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/num_volumes_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/hint_number_volumes"
+                android:inputType="number"
+                android:layout_margin="@dimen/big_padding"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_entry"/>
 
-        <EditText
-            android:id="@+id/author_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_height"
-            android:fontFamily="sans-serif-light"
-            android:hint="@string/hint_author"
-            android:inputType="textAutoComplete"
-            android:layout_margin="@dimen/big_padding"
-            android:textSize="18sp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/volume_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:listitem="@layout/manga_adapter_item"
+                android:layout_marginTop="@dimen/big_padding"
+                android:layout_marginBottom="@dimen/big_padding"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/num_volumes_entry"/>
 
-        <EditText
-            android:id="@+id/publisher_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_height"
-            android:fontFamily="sans-serif-light"
-            android:hint="@string/hint_publisher"
-            android:inputType="textAutoComplete"
-            android:layout_margin="@dimen/big_padding"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/language_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/hint_language"
+                android:inputType="textAutoComplete"
+                android:layout_margin="@dimen/big_padding"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/volume_recyclerview"/>
 
-        <EditText
-            android:id="@+id/notes_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/min_height"
-            android:fontFamily="sans-serif-light"
-            android:hint="@string/hint_notes"
-            android:inputType="textAutoComplete"
-            android:layout_margin="@dimen/big_padding"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/author_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/hint_author"
+                android:inputType="textAutoComplete"
+                android:layout_margin="@dimen/big_padding"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/language_entry"/>
 
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/button_save"
-            android:layout_margin="@dimen/big_padding"
-            android:textColor="@color/buttonLabel" />
+            <EditText
+                android:id="@+id/publisher_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/hint_publisher"
+                android:inputType="textAutoComplete"
+                android:layout_margin="@dimen/big_padding"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/author_entry"/>
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/notes_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/min_height"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/hint_notes"
+                android:inputType="textAutoComplete"
+                android:layout_margin="@dimen/big_padding"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/publisher_entry"/>
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/button_save"
+                android:layout_margin="@dimen/big_padding"
+                android:textColor="@color/buttonLabel"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/notes_entry"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
