@@ -19,9 +19,6 @@ class MangaVolumeAdapter : ListAdapter<MangaVolume, MangaVolumeAdapter.MangaVolu
 
     override fun onBindViewHolder(holder: MangaVolumeViewHolder, position: Int) {
         val current = getItem(position)
-        holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
-            current.owned = isChecked
-        }
         holder.bind(current)
     }
 
@@ -31,9 +28,9 @@ class MangaVolumeAdapter : ListAdapter<MangaVolume, MangaVolumeAdapter.MangaVolu
 
         fun bind(volume: MangaVolume) {
             volumeView.text = itemView.resources.getString(R.string.volume_number, volume.volumeNum)
-//            checkbox.setOnCheckedChangeListener { _, isChecked ->
-//                volume.owned = isChecked
-//            }
+            checkbox.setOnCheckedChangeListener { _, isChecked ->
+                volume.owned = isChecked
+            }
         }
 
         companion object {
