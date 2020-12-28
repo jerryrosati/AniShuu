@@ -6,20 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anishuu.*
-import com.anishuu.db.CollectionDatabase
 import com.anishuu.R
 import com.anishuu.databinding.CollectionFragmentBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 
 class CollectionFragment : Fragment() {
     private lateinit var binding: CollectionFragmentBinding
+    private lateinit var adapter: MangaAdapter
+    private lateinit var mangaViewModel: MangaViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -29,33 +28,29 @@ class CollectionFragment : Fragment() {
             container,
             false)
 
-        binding.fab.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.next_action, null))
-
-        // Inflate the layout for this fragment
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val adapter = MangaAdapter() { manga ->
+        // Navigate to the Manga details screen when a title is clicked.
+        adapter = MangaAdapter() { manga ->
             val series = manga.series
-            val action = CollectionFragmentDirections.viewSeries(series.numVolumes,
-                series.language,
-                series.author,
-                series.publisher,
-                series.notes)
+            val action = CollectionFragmentDirections.viewSeries(series.title)
             findNavController().navigate(action)
         }
 
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(context)
 
-        val mangaViewModel: MangaViewModel by activityViewModels {
-            MangaViewModelFactory(CollectionDatabase.getDatabase(
-                view.context,
-                CoroutineScope(SupervisorJob())))
-        }
+        // Create the Manga view model.
+        val application = requireNotNull(this.activity).application
+        val mangaViewModelFactory = MangaViewModelFactory(application as AnishuuApplication)
+        mangaViewModel = ViewModelProvider(this, mangaViewModelFactory)
+            .get(MangaViewModel::class.java)
+
+        // Navigate to the Update Collection screen when the FAB is clicked.
+        binding.fab.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.next_action, null))
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Update Manga adapter data when view model is updated.
         mangaViewModel.allTitles.observe(viewLifecycleOwner, Observer { words ->

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AniShuu</string>
 
+    <!-- Update Collection screen -->
     <string name="hint_title">Title</string>
     <string name="hint_number_volumes">Number of Volumes</string>
     <string name="hint_language">Language</string>
@@ -10,4 +11,11 @@
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Manga not saved because it is empty.</string>
     <string name="add_manga">Add Manga</string>
+
+    <!-- Manga Details screen -->
+    <string name="manga_details_num_volumes">Number of volumes: %d</string>
+    <string name="manga_details_language">Language: %s</string>
+    <string name="manga_details_author">Author: %s</string>
+    <string name="manga_details_publisher">Publisher: %s</string>
+    <string name="manga_details_notes">Notes: %s</string>
 </resources>

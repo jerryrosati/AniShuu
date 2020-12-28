@@ -1,16 +1,18 @@
 package com.anishuu.db.manga
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.OnConflictStrategy
-import kotlinx.coroutines.flow.Flow
+import androidx.lifecycle.LiveData
+import androidx.room.*
 
 @Dao
 interface MangaVolumeDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     suspend fun insert(volume: MangaVolume)
+
+    @Update
+    suspend fun update(volume: MangaVolume)
+
+    @Query("SELECT * FROM MangaVolume ORDER BY volumeNum ASC")
+    fun getAllVolumes(): LiveData<List<MangaVolume>>
 
     @Query("DELETE FROM MangaSeries")
     suspend fun deleteAll()

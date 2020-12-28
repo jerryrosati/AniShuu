@@ -1,10 +1,7 @@
 package com.anishuu.db.manga
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.OnConflictStrategy
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,8 +10,14 @@ interface MangaSeriesDao {
     @Query("SELECT * FROM MangaSeries ORDER BY title ASC")
     fun getAlphabetizedTitles(): Flow<List<Manga>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     suspend fun insert(series: MangaSeries)
+
+    @Update
+    suspend fun update(series: MangaSeries)
+
+     @Query("SELECT * from MangaSeries WHERE title = :title")
+     fun getSeries(title: String): LiveData<Manga>
 
     @Query("DELETE FROM MangaSeries")
     suspend fun deleteAll()

@@ -4,21 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.anishuu.AnishuuApplication
 import com.anishuu.MangaViewModel
 import com.anishuu.MangaViewModelFactory
-import com.anishuu.db.CollectionDatabase
 import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
 import com.anishuu.R
 import com.anishuu.databinding.UpdateCollectionFragmentBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 
 class UpdateCollectionFragment : Fragment() {
     private lateinit var binding: UpdateCollectionFragmentBinding
@@ -26,24 +22,23 @@ class UpdateCollectionFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         binding = DataBindingUtil.inflate(inflater,
             R.layout.update_collection_fragment,
             container,
             false)
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mangaViewModel: MangaViewModel by viewModels {
-            MangaViewModelFactory(CollectionDatabase.getDatabase(view.context,
-                CoroutineScope(SupervisorJob())))
-        }
+        val application = requireNotNull(this.activity).application
+        val mangaViewModelFactory = MangaViewModelFactory(application as AnishuuApplication)
+        val mangaViewModel = ViewModelProvider(this, mangaViewModelFactory)
+            .get(MangaViewModel::class.java)
 
+        // Save the Manga to the database when the save button is pressed.
         binding.buttonSave.setOnClickListener {
             val title = binding.titleEntry.text.toString()
             val numVolumes = binding.numVolumesEntry.text.toString().toInt()
