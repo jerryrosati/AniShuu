@@ -10,12 +10,17 @@ query SearchManga($id: Int, $page: Int, $perPage: Int, $search: String) {
         media (id: $id, search: $search, type: MANGA, sort: [POPULARITY_DESC, SEARCH_MATCH]) {
             id
             bannerImage
-            description(asHtml: false)
+            description(asHtml: true)
             chapters
             volumes
             status
             siteUrl
             genres
+            startDate {
+                year
+                month
+                day
+            }
             title { romaji }
             coverImage { extraLarge color }
             staff {

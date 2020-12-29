@@ -10,9 +10,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.anishuu.AnishuuApplication
 import com.anishuu.MangaViewModel
 import com.anishuu.MangaViewModelFactory
@@ -20,10 +23,12 @@ import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
 import com.anishuu.R
 import com.anishuu.databinding.UpdateCollectionFragmentBinding
+import com.anishuu.ui.collection.manga.search.MangaDetailsViewModel
 
 class UpdateCollectionFragment : Fragment() {
     private lateinit var binding: UpdateCollectionFragmentBinding
     private lateinit var adapter: MangaVolumeAdapter
+    private val model: MangaDetailsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -48,6 +53,11 @@ class UpdateCollectionFragment : Fragment() {
             .get(MangaViewModel::class.java)
 
         val volumeList = mutableListOf<MangaVolume>()
+
+        model.selected.observe(viewLifecycleOwner, Observer {
+            // Load the images.
+            binding.titleEntry.setText(it.title?.romaji)
+        })
 
         binding.numVolumesEntry.doAfterTextChanged {
             volumeList.clear()
