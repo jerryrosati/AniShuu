@@ -15,50 +15,9 @@ import com.anishuu.R
  import com.anishuu.SearchMangaQuery
 import com.anishuu.db.manga.Manga
 
-//class MangaResultsAdapter(val results: List<SearchMangaQuery.Medium>) : RecyclerView.Adapter<MangaResultsAdapter.MangaResultsViewHolder>() {
-//    var onEndOfListReached: (() -> Unit)? = null
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaResultsViewHolder {
-//        return MangaResultsViewHolder.create(parent)
-//    }
-//
-//    override fun onBindViewHolder(holder: MangaResultsViewHolder, position: Int) {
-//        Log.i("MangaSearchAdapter", "In onBindViewHolder")
-//        val current = results[position]
-//        holder.bind(current)
-//
-//        // Invoke the callback to load more results if we're at the end of the list.
-//        if (position == results.size - 1) {
-//            onEndOfListReached?.invoke()
-//        }
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return results.size
-//    }
-//
-//    class MangaResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        private val seriesImage: ImageView = itemView.findViewById(R.id.series_image)
-//        private val seriesTitle: TextView = itemView.findViewById(R.id.series_name)
-//        private val author: TextView = itemView.findViewById(R.id.author)
-//
-//        fun bind(result: SearchMangaQuery.Medium) {
-//            seriesTitle.text = result.title?.romaji
-//            Log.i("MangaSearchAdapter", "title = ${result.title?.romaji}")
-//            author.text = ""
-//            // seriesImage.load(result.coverImage?.extraLarge())
-//        }
-//
-//        companion object {
-//            fun create(parent: ViewGroup): MangaResultsViewHolder {
-//                val view: View = LayoutInflater.from(parent.context).inflate(R.layout.manga_results_adapter_item, parent, false)
-//                return MangaResultsViewHolder(view)
-//            }
-//        }
-//    }
-//}
+class MangaResultsAdapter(private val listener: (SearchMangaQuery.Medium) -> Unit) :
+    ListAdapter<SearchMangaQuery.Medium, MangaResultsAdapter.MangaResultsViewHolder>(MangaResultsComparator()) {
 
-class MangaResultsAdapter : ListAdapter<SearchMangaQuery.Medium, MangaResultsAdapter.MangaResultsViewHolder>(MangaResultsComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaResultsViewHolder {
         return MangaResultsViewHolder.create(parent)
     }
@@ -66,6 +25,7 @@ class MangaResultsAdapter : ListAdapter<SearchMangaQuery.Medium, MangaResultsAda
     override fun onBindViewHolder(holder: MangaResultsViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current)
+        holder.itemView.setOnClickListener { listener(current) }
     }
 
     class MangaResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -7,7 +7,7 @@ query SearchManga($id: Int, $page: Int, $perPage: Int, $search: String) {
             hasNextPage
             perPage
         }
-        media (id: $id, search: $search, type: MANGA) {
+        media (id: $id, search: $search, type: MANGA, sort: [POPULARITY_DESC, SEARCH_MATCH]) {
             id
             bannerImage
             description(asHtml: false)

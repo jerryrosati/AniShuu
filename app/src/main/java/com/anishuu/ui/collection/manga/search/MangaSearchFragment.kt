@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anishuu.R
 import com.anishuu.SearchMangaQuery
@@ -19,22 +21,41 @@ import com.apollographql.apollo.exception.ApolloException
 
 class MangaSearchFragment : Fragment() {
     private lateinit var binding: MangaSearchFragmentBinding
+    private lateinit var adapter: MangaResultsAdapter
+
+    // Shared Manga Details view model containing data on the selected series.
+    private val model: MangaDetailsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.manga_search_fragment,
             container,
             false)
+
+        // Set click listener for the displayed result items.
+        adapter = MangaResultsAdapter() {
+            // Update the view model with the manga details.
+            model.select(it)
+
+            // Navigate to the manga details screen.
+            val action = MangaSearchFragmentDirections.viewResultDetails()
+            findNavController().navigate(action)
+        }
+
+        binding.mangaResults.adapter = adapter
+        binding.mangaResults.layoutManager = LinearLayoutManager(requireContext())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Perform an Anilist search when the user presses the search button.
         binding.searchButton.setOnClickListener {
             lifecycleScope.launchWhenResumed {
                 val response = try {
-                    apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput())).await()
+                    apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput()))
+                        .await()
                 } catch (e: ApolloException) {
                     Log.d("MangaSearch", "Failure", e)
                     null
@@ -42,11 +63,9 @@ class MangaSearchFragment : Fragment() {
 
                 val media = response?.data?.page?.media?.filterNotNull()
                 Log.i("MangaSearch", media.toString())
-                if (media != null && !response.hasErrors()) {
-                    val adapter = MangaResultsAdapter()
-                    binding.mangaResults.adapter = adapter
-                    binding.mangaResults.layoutManager = LinearLayoutManager(requireContext())
 
+                // Update the RecyclerView data.
+                if (media != null && !response.hasErrors()) {
                     media.let { adapter.submitList(it) }
                 }
             }

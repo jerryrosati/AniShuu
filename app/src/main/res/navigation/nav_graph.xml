@@ -49,5 +49,22 @@
         android:id="@+id/search_manga_dest"
         android:name="com.anishuu.ui.collection.manga.search.MangaSearchFragment"
         android:label="fragment_search_manga"
-        tools:layout="@layout/manga_search_fragment" />
+        tools:layout="@layout/manga_search_fragment">
+
+        <action
+            android:id="@+id/view_result_details"
+            app:destination="@id/view_manga_result_dest" />
+    </fragment>
+
+    <!-- View Manga Search Result Details screen -->
+    <fragment
+        android:id="@+id/view_manga_result_dest"
+        android:name="com.anishuu.ui.collection.manga.search.ViewResultDetailsFragment"
+        android:label="fragment_view_manga_result_details"
+        tools:layout="@layout/manga_result_details_fragment">
+
+        <action
+            android:id="@+id/update_collection"
+            app:destination="@id/update_collection_dest" />
+    </fragment>
 </navigation>
