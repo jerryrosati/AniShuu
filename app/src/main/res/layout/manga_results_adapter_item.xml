@@ -11,7 +11,7 @@
         android:id="@+id/series_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:padding="16dp"
+        android:padding="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
