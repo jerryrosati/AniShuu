@@ -1,0 +1,32 @@
+query SearchManga($id: Int, $page: Int, $perPage: Int, $search: String) {
+    Page (page: $page, perPage: $perPage) {
+        pageInfo {
+            total
+            currentPage
+            lastPage
+            hasNextPage
+            perPage
+        }
+        media (id: $id, search: $search, type: MANGA) {
+            id
+            bannerImage
+            description(asHtml: false)
+            chapters
+            volumes
+            status
+            siteUrl
+            genres
+            title { romaji }
+            coverImage { extraLarge color }
+            staff {
+                edges {
+                    role
+                    node {
+                        name { full }
+                        siteUrl
+                    }
+                }
+            }
+        }
+    }
+}

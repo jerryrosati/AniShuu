@@ -13,7 +13,7 @@
         tools:layout="@layout/collection_fragment">
         <action
             android:id="@+id/next_action"
-            app:destination="@id/update_collection_dest" />
+            app:destination="@id/search_manga_dest" />
 
         <action
             android:id="@+id/view_series"
@@ -43,4 +43,11 @@
             app:argType="string"
             android:defaultValue="" />
     </fragment>
+
+    <!-- Search Manga screen -->
+    <fragment
+        android:id="@+id/search_manga_dest"
+        android:name="com.anishuu.ui.collection.manga.search.MangaSearchFragment"
+        android:label="fragment_search_manga"
+        tools:layout="@layout/manga_search_fragment" />
 </navigation>
