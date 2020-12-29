@@ -31,22 +31,24 @@ class MangaSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenResumed {
-            val response = try {
-                apolloClient.query(SearchMangaQuery(search = "Naruto".toInput())).await()
-            } catch (e: ApolloException) {
-                Log.d("MangaSearch", "Failure", e)
-                null
-            }
+        binding.searchButton.setOnClickListener {
+            lifecycleScope.launchWhenResumed {
+                val response = try {
+                    apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput())).await()
+                } catch (e: ApolloException) {
+                    Log.d("MangaSearch", "Failure", e)
+                    null
+                }
 
-            val media = response?.data?.page?.media?.filterNotNull()
-            Log.i("MangaSearch", media.toString())
-            if (media != null && !response.hasErrors()) {
-                val adapter = MangaResultsAdapter()
-                binding.mangaResults.adapter = adapter
-                binding.mangaResults.layoutManager = LinearLayoutManager(requireContext())
+                val media = response?.data?.page?.media?.filterNotNull()
+                Log.i("MangaSearch", media.toString())
+                if (media != null && !response.hasErrors()) {
+                    val adapter = MangaResultsAdapter()
+                    binding.mangaResults.adapter = adapter
+                    binding.mangaResults.layoutManager = LinearLayoutManager(requireContext())
 
-                media.let { adapter.submitList(it) }
+                    media.let { adapter.submitList(it) }
+                }
             }
         }
     }
