@@ -32,19 +32,9 @@ class ViewResultDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.collectionButton.setOnClickListener {
-            model.updateEvent(1)
+            val action = ViewResultDetailsFragmentDirections.updateCollection()
+            findNavController().navigate(action)
         }
-
-        model.event.observe(viewLifecycleOwner, Observer {
-            when(it) {
-                1 -> {
-                    val action = ViewResultDetailsFragmentDirections.updateCollection()
-                    findNavController().navigate(action)
-                    model.updateEvent(0)
-                }
-                else -> { Log.e("ViewResultsDetailsFragment", "Invalid event") }
-            }
-        })
 
         // Update the displayed manga details.
         model.selected.observe(viewLifecycleOwner, Observer {
