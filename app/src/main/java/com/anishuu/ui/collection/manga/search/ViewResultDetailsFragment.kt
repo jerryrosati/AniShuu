@@ -49,7 +49,11 @@ class ViewResultDetailsFragment : Fragment() {
         // Update the displayed manga details.
         model.selected.observe(viewLifecycleOwner, Observer {
             // Load the images.
-            binding.bannerImage.load(it.bannerImage)
+            if (it.bannerImage.isNullOrEmpty()) {
+                binding.bannerImage.visibility = View.GONE
+            } else {
+                binding.bannerImage.load(it.bannerImage)
+            }
             binding.coverImage.load(it.coverImage?.extraLarge)
 
             // Update the displayed details.

@@ -75,6 +75,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("com.google.android.material:material:1.2.1")
     implementation("io.coil-kt:coil:1.1.0")
+    implementation("androidx.cardview:cardview:1.0.0")
 
     // Testing
     testImplementation("junit:junit:4.13.1")

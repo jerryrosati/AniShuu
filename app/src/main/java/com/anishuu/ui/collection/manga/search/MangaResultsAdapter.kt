@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-// import coil.load
 import com.anishuu.R
  import com.anishuu.SearchMangaQuery
 import com.anishuu.db.manga.Manga
@@ -31,12 +30,12 @@ class MangaResultsAdapter(private val listener: (SearchMangaQuery.Medium) -> Uni
     class MangaResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val seriesImage: ImageView = itemView.findViewById(R.id.series_image)
         private val seriesTitle: TextView = itemView.findViewById(R.id.series_name)
-        private val author: TextView = itemView.findViewById(R.id.author)
+        // private val author: TextView = itemView.findViewById(R.id.author)
 
         fun bind(result: SearchMangaQuery.Medium) {
             seriesTitle.text = result.title?.romaji
             Log.i("MangaSearchAdapter", "title = ${result.title?.romaji}")
-            author.text = ""
+            // author.text = ""
             seriesImage.load(result.coverImage?.extraLarge)
         }
 
