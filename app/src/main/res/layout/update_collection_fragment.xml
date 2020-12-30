@@ -40,18 +40,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title_entry"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/volume_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                tools:listitem="@layout/manga_adapter_item"
-                android:layout_marginTop="@dimen/big_padding"
-                android:layout_marginBottom="@dimen/big_padding"
-                android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/num_volumes_entry"/>
-
             <EditText
                 android:id="@+id/language_entry"
                 android:layout_width="match_parent"
@@ -64,7 +52,7 @@
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/volume_recyclerview"/>
+                app:layout_constraintTop_toBottomOf="@id/num_volumes_entry"/>
 
             <EditText
                 android:id="@+id/author_entry"
@@ -108,17 +96,30 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/publisher_entry"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
+                android:clickable="true"
                 android:text="@string/button_save"
                 android:layout_margin="@dimen/big_padding"
                 android:textColor="@color/buttonLabel"
+                app:elevation="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/notes_entry"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/volume_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:listitem="@layout/manga_adapter_item"
+                android:layout_marginTop="@dimen/big_padding"
+                android:layout_marginBottom="@dimen/big_padding"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_save"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

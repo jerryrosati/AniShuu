@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.anishuu.R
  import com.anishuu.SearchMangaQuery
+import com.anishuu.type.MediaStatus
 
 /**
  * Adapter for search results when a user searches for a manga on Anilist.
@@ -38,7 +39,8 @@ class MangaResultsAdapter(private val listener: (SearchMangaQuery.Medium) -> Uni
         fun bind(result: SearchMangaQuery.Medium) {
             seriesImage.load(result.coverImage?.extraLarge)
             seriesTitle.text = result.title?.romaji
-            seriesInfo.text = result.status?.name
+            seriesInfo.text = if (result.status == MediaStatus.FINISHED && result.volumes != null)
+                itemView.resources.getString(R.string.manga_status_volumes, result.status.name, result.volumes) else result.status?.name
         }
 
         companion object {

@@ -56,6 +56,7 @@ class UpdateCollectionFragment : Fragment() {
 
         model.selected.observe(viewLifecycleOwner, Observer {
             binding.titleEntry.setText(it.title?.romaji)
+            binding.numVolumesEntry.setText(it.volumes?.toString())
         })
 
         binding.numVolumesEntry.doAfterTextChanged {

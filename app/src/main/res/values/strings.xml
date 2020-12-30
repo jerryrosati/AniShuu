@@ -24,4 +24,5 @@
 
     <!-- Manga Search Result Details Screen -->
     <string name="manga_result_details_date">%d/%d/%d</string>
+    <string name="manga_status_volumes">%s\u30FBVolumes: %d</string>
 </resources>

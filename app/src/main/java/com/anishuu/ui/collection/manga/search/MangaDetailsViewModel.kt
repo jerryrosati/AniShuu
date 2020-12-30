@@ -7,17 +7,12 @@ import com.anishuu.SearchMangaQuery
 /**
  * View Model used to pass Manga details from the [MangaSearchFragment].
  *
- *
+ * @property selected The selected [SearchMangaQuery.Medium] object.
  */
 class MangaDetailsViewModel : ViewModel() {
-    val event = MutableLiveData<Int>()
     val selected = MutableLiveData<SearchMangaQuery.Medium>()
 
     fun select(series: SearchMangaQuery.Medium) {
         selected.value = series
-    }
-
-    fun updateEvent(newEvent: Int) {
-        event.value = newEvent
     }
 }
