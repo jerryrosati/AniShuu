@@ -55,7 +55,6 @@ class UpdateCollectionFragment : Fragment() {
         val volumeList = mutableListOf<MangaVolume>()
 
         model.selected.observe(viewLifecycleOwner, Observer {
-            // Load the images.
             binding.titleEntry.setText(it.title?.romaji)
         })
 
