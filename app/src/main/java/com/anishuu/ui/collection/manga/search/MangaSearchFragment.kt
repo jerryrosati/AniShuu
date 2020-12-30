@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.anishuu.R
 import com.anishuu.SearchMangaQuery
 import com.anishuu.apolloClient
@@ -23,6 +22,9 @@ import com.apollographql.apollo.exception.ApolloException
 class MangaSearchFragment : Fragment() {
     private lateinit var binding: MangaSearchFragmentBinding
     private lateinit var adapter: MangaResultsAdapter
+
+    // Results that have been previously displayed.
+    private var savedResults = mutableListOf<SearchMangaQuery.Medium>()
 
     // Shared Manga Details view model containing data on the selected series.
     private val model: MangaDetailsViewModel by activityViewModels()
@@ -44,12 +46,17 @@ class MangaSearchFragment : Fragment() {
         }
 
         binding.mangaResults.adapter = adapter
-        binding.mangaResults.layoutManager = GridLayoutManager(activity, 2) // LinearLayoutManager(requireContext())
+        binding.mangaResults.layoutManager = GridLayoutManager(activity, 2)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Display any results that were saved (e.g. in the case of pressing back and entering this fragment).
+        if (savedResults.isNotEmpty()) {
+            savedResults.let { adapter.submitList(it) }
+        }
 
         // Perform an Anilist search when the user presses the search button.
         binding.searchButton.setOnClickListener {
@@ -62,12 +69,13 @@ class MangaSearchFragment : Fragment() {
                     null
                 }
 
-                val media = response?.data?.page?.media?.filterNotNull()
-                Log.i("MangaSearch", media.toString())
+                val mangaResults = response?.data?.page?.media?.filterNotNull()
+                Log.i("MangaSearch", mangaResults.toString())
 
                 // Update the RecyclerView data.
-                if (media != null && !response.hasErrors()) {
-                    media.let { adapter.submitList(it) }
+                if (mangaResults != null && !response.hasErrors()) {
+                    savedResults.addAll(mangaResults)
+                    mangaResults.let { adapter.submitList(it) }
                 }
             }
         }

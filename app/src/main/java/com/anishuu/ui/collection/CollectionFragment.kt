@@ -52,7 +52,7 @@ class CollectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Update Manga adapter data when view model is updated.
+        // Update Manga adapter data when the view model is updated.
         mangaViewModel.allTitles.observe(viewLifecycleOwner, Observer { words ->
             words?.let { adapter.submitList(it) }
         })

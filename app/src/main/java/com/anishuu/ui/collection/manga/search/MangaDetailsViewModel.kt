@@ -4,6 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anishuu.SearchMangaQuery
 
+/**
+ * View Model used to pass Manga details from the [MangaSearchFragment].
+ *
+ *
+ */
 class MangaDetailsViewModel : ViewModel() {
     val event = MutableLiveData<Int>()
     val selected = MutableLiveData<SearchMangaQuery.Medium>()

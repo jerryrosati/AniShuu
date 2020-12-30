@@ -1,6 +1,5 @@
 package com.anishuu.ui.collection.manga.search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.anishuu.R
  import com.anishuu.SearchMangaQuery
-import com.anishuu.db.manga.Manga
 
+/**
+ * Adapter for search results when a user searches for a manga on Anilist.
+ *
+ * @property listener The click listener for the adapter item.
+ */
 class MangaResultsAdapter(private val listener: (SearchMangaQuery.Medium) -> Unit) :
     ListAdapter<SearchMangaQuery.Medium, MangaResultsAdapter.MangaResultsViewHolder>(MangaResultsComparator()) {
 
@@ -30,12 +33,9 @@ class MangaResultsAdapter(private val listener: (SearchMangaQuery.Medium) -> Uni
     class MangaResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val seriesImage: ImageView = itemView.findViewById(R.id.series_image)
         private val seriesTitle: TextView = itemView.findViewById(R.id.series_name)
-        // private val author: TextView = itemView.findViewById(R.id.author)
 
         fun bind(result: SearchMangaQuery.Medium) {
             seriesTitle.text = result.title?.romaji
-            Log.i("MangaSearchAdapter", "title = ${result.title?.romaji}")
-            // author.text = ""
             seriesImage.load(result.coverImage?.extraLarge)
         }
 
