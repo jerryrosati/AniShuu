@@ -33,10 +33,12 @@ class MangaResultsAdapter(private val listener: (SearchMangaQuery.Medium) -> Uni
     class MangaResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val seriesImage: ImageView = itemView.findViewById(R.id.series_image)
         private val seriesTitle: TextView = itemView.findViewById(R.id.series_name)
+        private val seriesInfo: TextView = itemView.findViewById(R.id.series_info)
 
         fun bind(result: SearchMangaQuery.Medium) {
-            seriesTitle.text = result.title?.romaji
             seriesImage.load(result.coverImage?.extraLarge)
+            seriesTitle.text = result.title?.romaji
+            seriesInfo.text = result.status?.name
         }
 
         companion object {
