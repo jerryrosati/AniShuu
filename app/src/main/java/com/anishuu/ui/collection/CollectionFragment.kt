@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -17,11 +18,15 @@ import com.anishuu.databinding.CollectionFragmentBinding
 import com.anishuu.ui.collection.manga.MangaCollectionAdapter
 import com.anishuu.ui.collection.manga.MangaViewModel
 import com.anishuu.ui.collection.manga.MangaViewModelFactory
+import com.anishuu.ui.collection.manga.search.MangaDetailsViewModel
 
 class CollectionFragment : Fragment() {
     private lateinit var binding: CollectionFragmentBinding
     private lateinit var adapter: MangaCollectionAdapter
     private lateinit var mangaViewModel: MangaViewModel
+
+    // Shared Manga Details view model containing data on the selected series.
+    private val selectedMangaViewModel: MangaDetailsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -33,9 +38,9 @@ class CollectionFragment : Fragment() {
 
         // Navigate to the Manga details screen when a title is clicked.
         adapter = MangaCollectionAdapter() { manga ->
-            val series = manga.series
-            val action = CollectionFragmentDirections.viewSeries(series.title)
+            val action = CollectionFragmentDirections.viewSeries()
             findNavController().navigate(action)
+            selectedMangaViewModel.getMangaById(manga.series.anilistID)
         }
 
         binding.recyclerview.adapter = adapter

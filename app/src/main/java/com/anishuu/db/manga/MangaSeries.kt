@@ -11,5 +11,6 @@ data class MangaSeries(
     val author: String,
     val publisher: String,
     val notes: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val anilistID: Int
 )

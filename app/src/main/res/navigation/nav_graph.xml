@@ -17,7 +17,7 @@
 
         <action
             android:id="@+id/view_series"
-            app:destination="@id/view_series_details_dest" />
+            app:destination="@id/view_manga_result_dest" />
     </fragment>
 
     <!-- Update collection screen -->
