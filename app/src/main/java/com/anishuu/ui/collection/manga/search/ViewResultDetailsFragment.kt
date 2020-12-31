@@ -10,14 +10,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.anishuu.AnishuuApplication
 import com.anishuu.R
 import com.anishuu.databinding.MangaResultDetailsFragmentBinding
+import com.anishuu.ui.collection.manga.MangaViewModel
+import com.anishuu.ui.collection.manga.MangaViewModelFactory
 
 class ViewResultDetailsFragment : Fragment() {
     private lateinit var binding: MangaResultDetailsFragmentBinding
     private val model: MangaDetailsViewModel by activityViewModels()
+    private lateinit var mangaViewModel: MangaViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
@@ -29,6 +34,12 @@ class ViewResultDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Create the Manga view model.
+        val application = requireNotNull(this.activity).application
+        val mangaViewModelFactory = MangaViewModelFactory(application as AnishuuApplication)
+        mangaViewModel = ViewModelProvider(this, mangaViewModelFactory)
+            .get(MangaViewModel::class.java)
 
         binding.collectionButton.setOnClickListener {
             val action = ViewResultDetailsFragmentDirections.updateCollection()
@@ -50,6 +61,12 @@ class ViewResultDetailsFragment : Fragment() {
             binding.mangaDescription.text = convertHtmlTextToSpanned(it.description)
             binding.status.text = it.status?.name
             binding.startDate.text = getString(R.string.manga_result_details_date, it.startDate?.month, it.startDate?.day, it.startDate?.year)
+
+            if (it.title?.romaji != null) {
+                mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer {
+                    binding.collectionButton.text = getString(R.string.edit_collection);
+                })
+            }
         })
     }
 

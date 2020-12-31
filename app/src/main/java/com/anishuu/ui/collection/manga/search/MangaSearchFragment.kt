@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -58,25 +59,39 @@ class MangaSearchFragment : Fragment() {
             savedResults.let { adapter.submitList(it) }
         }
 
-        // Perform an Anilist search when the user presses the search button.
-        binding.searchButton.setOnClickListener {
-            lifecycleScope.launchWhenResumed {
-                val response = try {
-                    apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput()))
-                        .await()
-                } catch (e: ApolloException) {
-                    Log.d("MangaSearch", "Failure", e)
-                    null
+        // Perform an Anilist search when the user presses the search button or the search button on the keypad
+        binding.searchButton.setOnClickListener { searchMangaAndUpdateUI() }
+        binding.searchBox.setOnEditorActionListener { v, actionId, event ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    searchMangaAndUpdateUI()
+                    true
                 }
+                else -> false
+            }
+        }
+    }
 
-                val mangaResults = response?.data?.page?.media?.filterNotNull()
-                Log.i("MangaSearch", mangaResults.toString())
+    /**
+     * Searches for a manga series on Anilist and update the UI with the results.
+     */
+    private fun searchMangaAndUpdateUI() {
+        lifecycleScope.launchWhenResumed {
+            val response = try {
+                apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput()))
+                    .await()
+            } catch (e: ApolloException) {
+                Log.d("MangaSearch", "Failure", e)
+                null
+            }
 
-                // Update the RecyclerView data.
-                if (mangaResults != null && !response.hasErrors()) {
-                    savedResults.addAll(mangaResults)
-                    mangaResults.let { adapter.submitList(it) }
-                }
+            val mangaResults = response?.data?.page?.media?.filterNotNull()
+            Log.i("MangaSearch", mangaResults.toString())
+
+            // Update the RecyclerView data.
+            if (mangaResults != null && !response.hasErrors()) {
+                savedResults.addAll(mangaResults)
+                mangaResults.let { adapter.submitList(it) }
             }
         }
     }
