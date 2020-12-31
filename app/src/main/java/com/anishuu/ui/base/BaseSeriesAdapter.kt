@@ -10,6 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.anishuu.R
 
+/**
+ * Base adapter for series items.
+ *
+ * @param comparator The comparator used to compare items in the list.
+ */
 abstract class BaseSeriesAdapter<T>(comparator: DiffUtil.ItemCallback<T>) :
     ListAdapter<T, BaseSeriesAdapter.SeriesViewHolder>(comparator) {
 
@@ -20,14 +25,8 @@ abstract class BaseSeriesAdapter<T>(comparator: DiffUtil.ItemCallback<T>) :
     }
 
     class SeriesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val seriesImage: ImageView
-        val seriesTitle: TextView
-        val seriesInfo: TextView
-
-        init {
-            seriesImage = itemView.findViewById(R.id.series_image)
-            seriesTitle = itemView.findViewById(R.id.series_name)
-            seriesInfo = itemView.findViewById(R.id.series_info)
-        }
+        val seriesImage: ImageView = itemView.findViewById(R.id.series_image)
+        val seriesTitle: TextView = itemView.findViewById(R.id.series_name)
+        val seriesInfo: TextView = itemView.findViewById(R.id.series_info)
     }
 }
