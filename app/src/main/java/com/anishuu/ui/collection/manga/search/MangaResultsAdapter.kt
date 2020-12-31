@@ -1,17 +1,11 @@
 package com.anishuu.ui.collection.manga.search
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.anishuu.R
- import com.anishuu.SearchMangaQuery
+import com.anishuu.SearchMangaQuery
 import com.anishuu.type.MediaStatus
+import com.anishuu.ui.base.BaseSeriesAdapter
 
 /**
  * Adapter for search results when a user searches for a manga on Anilist.
@@ -19,37 +13,15 @@ import com.anishuu.type.MediaStatus
  * @property listener The click listener for the adapter item.
  */
 class MangaResultsAdapter(private val listener: (SearchMangaQuery.Medium) -> Unit) :
-    ListAdapter<SearchMangaQuery.Medium, MangaResultsAdapter.MangaResultsViewHolder>(MangaResultsComparator()) {
+    BaseSeriesAdapter<SearchMangaQuery.Medium>(MangaResultsComparator()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaResultsViewHolder {
-        return MangaResultsViewHolder.create(parent)
-    }
-
-    override fun onBindViewHolder(holder: MangaResultsViewHolder, position: Int) {
-        val current = getItem(position)
-        holder.bind(current)
-        holder.itemView.setOnClickListener { listener(current) }
-    }
-
-    class MangaResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val seriesImage: ImageView = itemView.findViewById(R.id.series_image)
-        private val seriesTitle: TextView = itemView.findViewById(R.id.series_name)
-        private val seriesInfo: TextView = itemView.findViewById(R.id.series_info)
-
-        fun bind(result: SearchMangaQuery.Medium) {
-            seriesImage.load(result.coverImage?.extraLarge)
-            seriesTitle.text = result.title?.romaji
-            seriesInfo.text = if (result.status == MediaStatus.FINISHED && result.volumes != null)
-                itemView.resources.getString(R.string.manga_status_volumes, result.status.name, result.volumes) else result.status?.name
-        }
-
-        companion object {
-            fun create(parent: ViewGroup): MangaResultsViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.manga_results_adapter_item, parent, false)
-                return MangaResultsViewHolder(view)
-            }
-        }
+    override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
+        val result = getItem(position)
+        holder.seriesImage.load(result.coverImage?.extraLarge)
+        holder.seriesTitle.text = result.title?.romaji
+        holder.seriesInfo.text = if (result.status == MediaStatus.FINISHED && result.volumes != null)
+            holder.itemView.resources.getString(R.string.manga_status_volumes, result.status.name, result.volumes) else result.status?.name
+        holder.itemView.setOnClickListener { listener(result) }
     }
 
     class MangaResultsComparator : DiffUtil.ItemCallback<SearchMangaQuery.Medium>() {
