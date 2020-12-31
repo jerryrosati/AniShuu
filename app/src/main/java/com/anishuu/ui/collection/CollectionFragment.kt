@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anishuu.*
 import com.anishuu.R
@@ -36,7 +37,7 @@ class CollectionFragment : Fragment() {
         }
 
         binding.recyclerview.adapter = adapter
-        binding.recyclerview.layoutManager = LinearLayoutManager(context)
+        binding.recyclerview.layoutManager = GridLayoutManager(activity, 2)
 
         // Create the Manga view model.
         val application = requireNotNull(this.activity).application

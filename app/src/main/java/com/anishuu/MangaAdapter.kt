@@ -1,40 +1,19 @@
 package com.anishuu
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.ListAdapter
+import coil.load
 import com.anishuu.db.manga.Manga
-import com.anishuu.MangaAdapter.MangaViewHolder
+import com.anishuu.ui.base.BaseSeriesAdapter
 
-class MangaAdapter(private val listener: (Manga) -> Unit) : ListAdapter<Manga, MangaViewHolder>(MangaComparator()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaViewHolder {
-        return MangaViewHolder.create(parent)
-    }
-
-    override fun onBindViewHolder(holder: MangaViewHolder, position: Int) {
+class MangaAdapter(private val listener: (Manga) -> Unit) : BaseSeriesAdapter<Manga>(MangaComparator()) {
+    override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.series.title)
+        if (current.series.imageUrl.isNotEmpty()) {
+            holder.seriesImage.load(current.series.imageUrl)
+        }
+        holder.seriesTitle.text = current.series.title
+        holder.seriesInfo.text = holder.itemView.resources.getString(R.string.manga_owned_count, current.volumes.count { it.owned }, current.volumes.size)
         holder.itemView.setOnClickListener { listener(current) }
-    }
-
-    class MangaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val wordItemView: TextView = itemView.findViewById(R.id.textView)
-
-        fun bind(text: String?) {
-            wordItemView.text = text
-        }
-
-        companion object {
-            fun create(parent: ViewGroup): MangaViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.manga_adapter_item, parent, false)
-                return MangaViewHolder(view)
-            }
-        }
     }
 
     class MangaComparator : DiffUtil.ItemCallback<Manga>() {

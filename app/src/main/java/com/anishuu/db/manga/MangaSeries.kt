@@ -10,5 +10,6 @@ data class MangaSeries(
     val language: String,
     val author: String,
     val publisher: String,
-    val notes: String
+    val notes: String,
+    val imageUrl: String
 )

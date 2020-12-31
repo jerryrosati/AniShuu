@@ -95,7 +95,7 @@ class UpdateCollectionFragment : Fragment() {
                 val notes = binding.notesEntry.text.toString()
 
                 // Add the series to the database.
-                val series = MangaSeries(title, numVolumes, language, author, publisher, notes)
+                val series = MangaSeries(title, numVolumes, language, author, publisher, notes, model.selected.value?.coverImage?.extraLarge ?: "")
                 mangaViewModel.insertSeries(series)
 
                 // Add the volumes to the database.
