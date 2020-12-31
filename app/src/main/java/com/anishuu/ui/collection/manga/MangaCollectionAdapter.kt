@@ -1,11 +1,12 @@
-package com.anishuu
+package com.anishuu.ui.collection.manga
 
 import androidx.recyclerview.widget.DiffUtil
 import coil.load
+import com.anishuu.R
 import com.anishuu.db.manga.Manga
 import com.anishuu.ui.base.BaseSeriesAdapter
 
-class MangaAdapter(private val listener: (Manga) -> Unit) : BaseSeriesAdapter<Manga>(MangaComparator()) {
+class MangaCollectionAdapter(private val listener: (Manga) -> Unit) : BaseSeriesAdapter<Manga>(MangaComparator()) {
     override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
         val current = getItem(position)
         if (current.series.imageUrl.isNotEmpty()) {

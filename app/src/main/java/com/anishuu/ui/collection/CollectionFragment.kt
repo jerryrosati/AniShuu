@@ -11,14 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.anishuu.*
 import com.anishuu.R
 import com.anishuu.databinding.CollectionFragmentBinding
+import com.anishuu.ui.collection.manga.MangaCollectionAdapter
+import com.anishuu.ui.collection.manga.MangaViewModel
+import com.anishuu.ui.collection.manga.MangaViewModelFactory
 
 class CollectionFragment : Fragment() {
     private lateinit var binding: CollectionFragmentBinding
-    private lateinit var adapter: MangaAdapter
+    private lateinit var adapter: MangaCollectionAdapter
     private lateinit var mangaViewModel: MangaViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -30,7 +32,7 @@ class CollectionFragment : Fragment() {
             false)
 
         // Navigate to the Manga details screen when a title is clicked.
-        adapter = MangaAdapter() { manga ->
+        adapter = MangaCollectionAdapter() { manga ->
             val series = manga.series
             val action = CollectionFragmentDirections.viewSeries(series.title)
             findNavController().navigate(action)

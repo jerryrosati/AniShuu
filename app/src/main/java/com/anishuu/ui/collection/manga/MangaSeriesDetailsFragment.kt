@@ -1,4 +1,4 @@
-package com.anishuu.ui.collection
+package com.anishuu.ui.collection.manga
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.anishuu.AnishuuApplication
-import com.anishuu.MangaViewModel
-import com.anishuu.MangaViewModelFactory
 import com.anishuu.R
 import com.anishuu.databinding.ViewSeriesDetailsFragmentBinding
 
-class ViewSeriesDetailsFragment : Fragment() {
+class MangaSeriesDetailsFragment : Fragment() {
     private lateinit var binding: ViewSeriesDetailsFragmentBinding
     private lateinit var mangaViewModel: MangaViewModel
 
@@ -38,7 +36,7 @@ class ViewSeriesDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val safeArgs: ViewSeriesDetailsFragmentArgs by navArgs()
+        val safeArgs: MangaSeriesDetailsFragmentArgs by navArgs()
 
         // Display the Manga details.
         mangaViewModel.getSeries(safeArgs.title).observe(viewLifecycleOwner, Observer { manga ->

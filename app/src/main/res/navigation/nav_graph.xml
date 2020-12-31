@@ -23,7 +23,7 @@
     <!-- Update collection screen -->
     <fragment
         android:id="@+id/update_collection_dest"
-        android:name="com.anishuu.ui.collection.UpdateCollectionFragment"
+        android:name="com.anishuu.ui.collection.manga.update.UpdateCollectionFragment"
         android:label="fragment_update_collection"
         tools:layout="@layout/update_collection_fragment">
 
@@ -35,7 +35,7 @@
     <!-- View Series Details screen -->
     <fragment
         android:id="@+id/view_series_details_dest"
-        android:name="com.anishuu.ui.collection.ViewSeriesDetailsFragment"
+        android:name="com.anishuu.ui.collection.manga.MangaSeriesDetailsFragment"
         android:label="fragment_view_series_details"
         tools:layout="@layout/view_series_details_fragment">
         <argument

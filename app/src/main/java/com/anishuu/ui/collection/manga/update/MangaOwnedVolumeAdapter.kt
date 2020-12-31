@@ -1,4 +1,4 @@
-package com.anishuu.ui.collection
+package com.anishuu.ui.collection.manga.update
 
 import com.anishuu.R
 import android.view.LayoutInflater
@@ -9,10 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
-import com.anishuu.db.manga.Manga
 import com.anishuu.db.manga.MangaVolume
 
-class MangaVolumeAdapter : ListAdapter<MangaVolume, MangaVolumeAdapter.MangaVolumeViewHolder>(MangaVolumeComparator()) {
+class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter.MangaVolumeViewHolder>(
+    MangaVolumeComparator()
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaVolumeViewHolder {
         return MangaVolumeViewHolder.create(parent)
     }

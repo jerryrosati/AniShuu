@@ -1,6 +1,7 @@
-package com.anishuu
+package com.anishuu.ui.collection.manga
 
 import androidx.lifecycle.*
+import com.anishuu.AnishuuApplication
 import com.anishuu.db.manga.Manga
 import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume

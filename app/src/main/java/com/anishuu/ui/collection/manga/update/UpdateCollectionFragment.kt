@@ -1,4 +1,4 @@
-package com.anishuu.ui.collection
+package com.anishuu.ui.collection.manga.update
 
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,10 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.anishuu.AnishuuApplication
-import com.anishuu.MangaViewModel
-import com.anishuu.MangaViewModelFactory
+import com.anishuu.ui.collection.manga.MangaViewModel
+import com.anishuu.ui.collection.manga.MangaViewModelFactory
 import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
 import com.anishuu.R
@@ -27,7 +25,7 @@ import com.anishuu.ui.collection.manga.search.MangaDetailsViewModel
 
 class UpdateCollectionFragment : Fragment() {
     private lateinit var binding: UpdateCollectionFragmentBinding
-    private lateinit var adapter: MangaVolumeAdapter
+    private lateinit var adapter: MangaOwnedVolumeAdapter
     private val model: MangaDetailsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -38,7 +36,7 @@ class UpdateCollectionFragment : Fragment() {
             container,
             false)
 
-        adapter = MangaVolumeAdapter()
+        adapter = MangaOwnedVolumeAdapter()
         binding.volumeRecyclerview.adapter = adapter
         binding.volumeRecyclerview.layoutManager = LinearLayoutManager(context)
         return binding.root
