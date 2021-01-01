@@ -21,7 +21,7 @@ import com.anishuu.ui.collection.manga.MangaViewModelFactory
 
 class ViewResultDetailsFragment : Fragment() {
     private lateinit var binding: MangaResultDetailsFragmentBinding
-    private val model: MangaDetailsViewModel by activityViewModels()
+    private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
     private lateinit var mangaViewModel: MangaViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,7 +47,7 @@ class ViewResultDetailsFragment : Fragment() {
         }
 
         // Update the displayed manga details.
-        model.selected.observe(viewLifecycleOwner, Observer {
+        sharedModel.selected.observe(viewLifecycleOwner, Observer {
             // Load the images.
             if (it.bannerImage.isNullOrEmpty()) {
                 binding.bannerImage.visibility = View.GONE
@@ -62,9 +62,10 @@ class ViewResultDetailsFragment : Fragment() {
             binding.status.text = it.status?.name
             binding.startDate.text = getString(R.string.manga_result_details_date, it.startDate?.month, it.startDate?.day, it.startDate?.year)
 
+            // If the series is already in the collection, then change the "Add to collection" button to an "Edit Collection" button.
             if (it.title?.romaji != null) {
-                mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer {
-                    binding.collectionButton.text = getString(R.string.edit_collection);
+                mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer {
+                    binding.collectionButton.text = getString(R.string.edit_collection)
                 })
             }
         })
