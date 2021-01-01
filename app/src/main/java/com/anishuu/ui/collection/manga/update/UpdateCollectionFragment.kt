@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anishuu.AnishuuApplication
 import com.anishuu.ui.collection.manga.MangaViewModel
@@ -21,12 +22,13 @@ import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
 import com.anishuu.R
 import com.anishuu.databinding.UpdateCollectionFragmentBinding
-import com.anishuu.ui.collection.manga.search.MangaDetailsViewModel
+import com.anishuu.ui.collection.manga.search.SharedMangaDetailsViewModel
 
 class UpdateCollectionFragment : Fragment() {
     private lateinit var binding: UpdateCollectionFragmentBinding
     private lateinit var adapter: MangaOwnedVolumeAdapter
-    private val model: MangaDetailsViewModel by activityViewModels()
+    private val model: SharedMangaDetailsViewModel by activityViewModels()
+    private var seriesExistsInDatabase: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -38,7 +40,7 @@ class UpdateCollectionFragment : Fragment() {
 
         adapter = MangaOwnedVolumeAdapter()
         binding.volumeRecyclerview.adapter = adapter
-        binding.volumeRecyclerview.layoutManager = LinearLayoutManager(context)
+        binding.volumeRecyclerview.layoutManager = GridLayoutManager(context, 2)
         return binding.root
     }
 
@@ -53,8 +55,30 @@ class UpdateCollectionFragment : Fragment() {
         val volumeList = mutableListOf<MangaVolume>()
 
         model.selected.observe(viewLifecycleOwner, Observer {
-            binding.titleEntry.setText(it.title?.romaji)
-            binding.numVolumesEntry.setText(it.volumes?.toString())
+            if (it.title?.romaji != null) {
+                mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer { doesExist ->
+                    seriesExistsInDatabase = doesExist
+
+                    if (doesExist) {
+                        mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
+                            binding.titleEntry.setText(manga.series.title)
+                            binding.numVolumesEntry.setText(if (manga.series.numVolumes > 0) manga.series.numVolumes.toString() else "")
+                            binding.authorEntry.setText(manga.series.author)
+                            binding.languageEntry.setText(manga.series.language)
+                            binding.publisherEntry.setText(manga.series.publisher)
+                            binding.notesEntry.setText(manga.series.notes)
+                            volumeList.clear()
+                            Log.i("JERRY", "Setting volumeList in observe")
+                            volumeList.addAll(manga.volumes)
+                            adapter.notifyDataSetChanged()
+                            // volumeList.let { volumes -> adapter.submitList(volumes) }
+                        })
+                    } else {
+                        binding.titleEntry.setText(it.title.romaji)
+                        binding.numVolumesEntry.setText(it.volumes?.toString())
+                    }
+                })
+            }
         })
 
         binding.numVolumesEntry.doAfterTextChanged {
@@ -67,6 +91,7 @@ class UpdateCollectionFragment : Fragment() {
             adapter.notifyDataSetChanged()
 
             if (it.toString().isNotEmpty()) {
+                Log.i("JERRY", "Setting volumeList in doAfterTextChanged")
                 for (i in 1..binding.numVolumesEntry.text.toString().toInt()) {
                     Log.i("UpdateCollectionFragment", "Volume = $i")
                     volumeList.add(MangaVolume(i, "", false))
@@ -101,14 +126,25 @@ class UpdateCollectionFragment : Fragment() {
                     notes,
                     model.selected.value?.coverImage?.extraLarge ?: "",
                     model.selected.value?.id ?: -1)
-                mangaViewModel.insertSeries(series)
+
+                if (seriesExistsInDatabase) {
+                    Log.i("UpdateCollectionFragment", "in mangaviewmodel")
+                    mangaViewModel.updateSeries(series)
+                } else {
+                    mangaViewModel.insertSeries(series)
+                }
 
                 // Add the volumes to the database.
                 for (volume in volumeList) {
                     Log.i("UpdateCollectionFragment", "Volume ${volume.volumeNum} owned = ${volume.owned}")
                     volume.seriesTitle = title
-                    mangaViewModel.insertVolume(volume)
+                    if (seriesExistsInDatabase) {
+                        mangaViewModel.updateVolume(volume)
+                    } else {
+                        mangaViewModel.insertVolume(volume)
+                    }
                 }
+
 
                 // Navigate back to the collection screen.
                 findNavController().navigate(R.id.collection_dest, null)

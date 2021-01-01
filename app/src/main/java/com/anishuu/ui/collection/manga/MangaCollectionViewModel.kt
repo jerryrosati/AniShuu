@@ -23,6 +23,15 @@ class MangaViewModel(application: AnishuuApplication) : AndroidViewModel(applica
     }
 
     /**
+     * Update a MangaSeries in the database.
+     *
+     * @param series The series to update.
+     */
+    fun updateSeries(series: MangaSeries) = viewModelScope.launch {
+        repository.updateSeries(series)
+    }
+
+    /**
      * Get a Manga with the given title from the database.
      *
      * @param title The title of the series to get.
@@ -33,12 +42,31 @@ class MangaViewModel(application: AnishuuApplication) : AndroidViewModel(applica
     }
 
     /**
+     * Checks whether a Manga series with the give title exists in the database.
+     *
+     * @param title The title to search for.
+     * @return True if the title exists, and false otherwise.
+     */
+    fun doesSeriesExist(title: String): LiveData<Boolean> {
+        return repository.doesSeriesExist(title)
+    }
+
+    /**
      * Insert a MangaVolume into the database.
      *
      * @param volume The volume to insert.
      */
     fun insertVolume(volume: MangaVolume) = viewModelScope.launch {
         repository.insertVolume(volume)
+    }
+
+    /**
+     * Update a MangaVolume in the database.
+     *
+     * @param volume The volume to update.
+     */
+    fun updateVolume(volume: MangaVolume) = viewModelScope.launch {
+        repository.updateVolume(volume)
     }
 }
 

@@ -29,6 +29,7 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
 
         fun bind(volume: MangaVolume) {
             volumeView.text = itemView.resources.getString(R.string.volume_number, volume.volumeNum)
+            checkbox.isChecked = volume.owned
             checkbox.setOnCheckedChangeListener { _, isChecked ->
                 volume.owned = isChecked
             }
@@ -49,7 +50,7 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
         }
 
         override fun areContentsTheSame(oldItem: MangaVolume, newItem: MangaVolume): Boolean {
-            return oldItem.volumeNum == newItem.volumeNum
+            return (oldItem.volumeId == newItem.volumeId) && (oldItem.owned == newItem.owned)
         }
     }
 }

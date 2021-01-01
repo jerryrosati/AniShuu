@@ -20,15 +20,35 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     }
 
     /**
+     * Updates a MangaSeries in the database.
+     *
+     * @param series The series to update.
+     */
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateSeries(series: MangaSeries) {
+        mangaDao.update(series)
+    }
+
+    /**
      * Get a Manga with the given title from the database.
      *
      * @param title The title of the series to get.
      * @return LiveData containing the Manga.
      */
-    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     fun getSeries(title: String): LiveData<Manga> {
         return mangaDao.getSeries(title)
+    }
+
+    /**
+     * Checks whether a Manga series with the give title exists in the database.
+     *
+     * @param title The title to search for.
+     * @return True if the title exists, and false otherwise.
+     */
+    fun doesSeriesExist(title: String): LiveData<Boolean> {
+        return mangaDao.doesSeriesExist(title)
     }
 
     /**
@@ -40,5 +60,16 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     @WorkerThread
     suspend fun insertVolume(volume: MangaVolume) {
         volumeDao.insert(volume)
+    }
+
+    /**
+     * Update a MangaVolume in the database.
+     *
+     * @param volume The volume to update.
+     */
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateVolume(volume: MangaVolume) {
+        volumeDao.update(volume)
     }
 }

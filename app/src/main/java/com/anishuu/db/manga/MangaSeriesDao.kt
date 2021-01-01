@@ -19,6 +19,9 @@ interface MangaSeriesDao {
      @Query("SELECT * from MangaSeries WHERE title = :title")
      fun getSeries(title: String): LiveData<Manga>
 
+    @Query("SELECT EXISTS(SELECT * FROM MangaSeries WHERE title = :title)")
+    fun doesSeriesExist(title: String): LiveData<Boolean>
+
     @Query("DELETE FROM MangaSeries")
     suspend fun deleteAll()
 }

@@ -28,7 +28,7 @@ class MangaSearchFragment : Fragment() {
     private var savedResults = mutableListOf<SearchMangaQuery.Medium>()
 
     // Shared Manga Details view model containing data on the selected series.
-    private val model: MangaDetailsViewModel by activityViewModels()
+    private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
@@ -39,7 +39,7 @@ class MangaSearchFragment : Fragment() {
         // Set click listener for the displayed result items.
         adapter = MangaResultsAdapter() {
             // Update the view model with the manga details.
-            model.select(it)
+            sharedModel.select(it)
 
             // Navigate to the manga details screen.
             val action = MangaSearchFragmentDirections.viewResultDetails()

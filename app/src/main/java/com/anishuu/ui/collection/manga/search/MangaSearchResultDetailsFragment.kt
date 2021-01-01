@@ -19,7 +19,7 @@ import com.anishuu.databinding.MangaResultDetailsFragmentBinding
 import com.anishuu.ui.collection.manga.MangaViewModel
 import com.anishuu.ui.collection.manga.MangaViewModelFactory
 
-class ViewResultDetailsFragment : Fragment() {
+class MangaSearchResultDetailsFragment : Fragment() {
     private lateinit var binding: MangaResultDetailsFragmentBinding
     private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
     private lateinit var mangaViewModel: MangaViewModel
@@ -42,7 +42,7 @@ class ViewResultDetailsFragment : Fragment() {
             .get(MangaViewModel::class.java)
 
         binding.collectionButton.setOnClickListener {
-            val action = ViewResultDetailsFragmentDirections.updateCollection()
+            val action = MangaSearchResultDetailsFragmentDirections.updateCollection()
             findNavController().navigate(action)
         }
 
