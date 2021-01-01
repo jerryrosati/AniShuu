@@ -85,7 +85,8 @@ abstract class CollectionDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext, CollectionDatabase::class.java,"word_database")
                     .addCallback(CollectionDatabaseCallback(scope))
-                    .addMigrations(MIGRATION_1_2)
+                    //.addMigrations(MIGRATION_1_2)
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance

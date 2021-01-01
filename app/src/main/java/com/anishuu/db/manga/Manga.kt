@@ -1,6 +1,5 @@
 package com.anishuu.db.manga
 
-import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Relation
 

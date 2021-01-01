@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AniShuu</string>
 
+    <!-- Overflow menu items -->
+    <string name="menu_delete_all">Delete All Items</string>
+
     <!-- Update Collection screen -->
     <string name="hint_title">Title</string>
     <string name="hint_number_volumes">Number of Volumes</string>

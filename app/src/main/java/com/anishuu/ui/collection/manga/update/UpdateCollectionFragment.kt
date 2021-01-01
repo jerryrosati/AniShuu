@@ -46,18 +46,22 @@ class UpdateCollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i("JERRY", "in onViewCreated")
 
+        // The view model for database operations.
         val application = requireNotNull(this.activity).application
         val mangaViewModelFactory = MangaViewModelFactory(application as AnishuuApplication)
         val mangaViewModel = ViewModelProvider(this, mangaViewModelFactory)
             .get(MangaViewModel::class.java)
 
-        val volumeList = mutableListOf<MangaVolume>()
+        // The list of volumes for the series.
+        var volumeList = mutableListOf<MangaVolume>()
 
         model.selected.observe(viewLifecycleOwner, Observer {
             if (it.title?.romaji != null) {
                 mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer { doesExist ->
                     seriesExistsInDatabase = doesExist
+                    Log.i("JERRY", "Series ${it.title.romaji} exists in database: $seriesExistsInDatabase")
 
                     if (doesExist) {
                         mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
@@ -69,7 +73,8 @@ class UpdateCollectionFragment : Fragment() {
                             binding.notesEntry.setText(manga.series.notes)
                             volumeList.clear()
                             Log.i("JERRY", "Setting volumeList in observe")
-                            volumeList.addAll(manga.volumes)
+                            volumeList = manga.volumes as MutableList<MangaVolume>
+                            Log.i("JERRY", "VolumeList = $volumeList")
                             adapter.notifyDataSetChanged()
                             // volumeList.let { volumes -> adapter.submitList(volumes) }
                         })
@@ -139,12 +144,13 @@ class UpdateCollectionFragment : Fragment() {
                     Log.i("UpdateCollectionFragment", "Volume ${volume.volumeNum} owned = ${volume.owned}")
                     volume.seriesTitle = title
                     if (seriesExistsInDatabase) {
+                        Log.i("JERRY", "Updating volume: $volume")
                         mangaViewModel.updateVolume(volume)
                     } else {
+                        Log.i("JERRY", "Inserting volume: $volume")
                         mangaViewModel.insertVolume(volume)
                     }
                 }
-
 
                 // Navigate back to the collection screen.
                 findNavController().navigate(R.id.collection_dest, null)

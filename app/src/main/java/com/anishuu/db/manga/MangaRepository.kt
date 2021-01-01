@@ -37,6 +37,7 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     @WorkerThread
     suspend fun deleteAll() {
         mangaDao.deleteAll()
+        volumeDao.deleteAll()
     }
 
     /**

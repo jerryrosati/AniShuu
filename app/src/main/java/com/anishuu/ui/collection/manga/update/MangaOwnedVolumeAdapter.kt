@@ -25,7 +25,7 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
 
     class MangaVolumeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val volumeView: TextView = itemView.findViewById(R.id.volume_number)
-        val checkbox: CheckBox = itemView.findViewById(R.id.checkbox);
+        val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
 
         fun bind(volume: MangaVolume) {
             volumeView.text = itemView.resources.getString(R.string.volume_number, volume.volumeNum)
@@ -50,7 +50,7 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
         }
 
         override fun areContentsTheSame(oldItem: MangaVolume, newItem: MangaVolume): Boolean {
-            return (oldItem.volumeId == newItem.volumeId) && (oldItem.owned == newItem.owned)
+            return oldItem == newItem
         }
     }
 }

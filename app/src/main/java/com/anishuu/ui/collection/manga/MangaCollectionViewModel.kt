@@ -68,6 +68,13 @@ class MangaViewModel(application: AnishuuApplication) : AndroidViewModel(applica
     fun updateVolume(volume: MangaVolume) = viewModelScope.launch {
         repository.updateVolume(volume)
     }
+
+    /**
+     * Deletes all items in the database.
+     */
+    fun deleteAll() = viewModelScope.launch {
+        repository.deleteAll()
+    }
 }
 
 class MangaViewModelFactory(private val application: AnishuuApplication) : ViewModelProvider.Factory {
