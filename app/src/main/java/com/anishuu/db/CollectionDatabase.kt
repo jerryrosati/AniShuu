@@ -40,6 +40,7 @@ abstract class CollectionDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: CollectionDatabase? = null
 
+        // Version 1 -> 2 migration.
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 // MangaSeries migration.
@@ -85,8 +86,7 @@ abstract class CollectionDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext, CollectionDatabase::class.java,"word_database")
                     .addCallback(CollectionDatabaseCallback(scope))
-                    //.addMigrations(MIGRATION_1_2)
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 instance

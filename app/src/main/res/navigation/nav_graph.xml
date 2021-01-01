@@ -32,18 +32,6 @@
             app:popUpTo="@id/collection_dest" />
     </fragment>
 
-    <!-- View Series Details screen -->
-    <fragment
-        android:id="@+id/view_series_details_dest"
-        android:name="com.anishuu.ui.collection.manga.MangaSeriesDetailsFragment"
-        android:label="fragment_view_series_details"
-        tools:layout="@layout/view_series_details_fragment">
-        <argument
-            android:name="title"
-            app:argType="string"
-            android:defaultValue="" />
-    </fragment>
-
     <!-- Search Manga screen -->
     <fragment
         android:id="@+id/search_manga_dest"
