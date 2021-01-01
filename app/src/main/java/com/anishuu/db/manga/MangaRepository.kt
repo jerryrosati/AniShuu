@@ -31,6 +31,15 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     }
 
     /**
+     * Deletes all items in the database.
+     */
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteAll() {
+        mangaDao.deleteAll()
+    }
+
+    /**
      * Get a Manga with the given title from the database.
      *
      * @param title The title of the series to get.
