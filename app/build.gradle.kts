@@ -49,6 +49,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.activity:activity-ktx:1.1.0")
+    implementation("com.jakewharton.timber:timber:4.7.1")
 
     // Apollo
     implementation("com.apollographql.apollo:apollo-runtime:2.4.6")

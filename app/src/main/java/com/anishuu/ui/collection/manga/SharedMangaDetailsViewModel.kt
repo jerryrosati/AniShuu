@@ -11,6 +11,7 @@ import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * View Model used to pass Manga details from the [MangaSearchFragment].
@@ -41,7 +42,7 @@ class SharedMangaDetailsViewModel : ViewModel() {
             apolloClient.query(SearchMangaQuery(id = id.toInput()))
                 .await()
         } catch (e: ApolloException) {
-            Log.d("MangaDetailsViewModel", "Failed to get Manga with ID $id", e)
+            Timber.d("Failed to get manga with id $id: $e")
             null
         }
 

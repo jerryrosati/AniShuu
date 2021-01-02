@@ -20,6 +20,7 @@ import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
+import timber.log.Timber
 
 class MangaSearchFragment : Fragment() {
     private lateinit var binding: MangaSearchFragmentBinding
@@ -82,12 +83,12 @@ class MangaSearchFragment : Fragment() {
                 apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput()))
                     .await()
             } catch (e: ApolloException) {
-                Log.d("MangaSearch", "Failure", e)
+                Timber.d("Failure: $e")
                 null
             }
 
             val mangaResults = response?.data?.page?.media?.filterNotNull()
-            Log.i("MangaSearch", mangaResults.toString())
+            Timber.i("Manga Result: ${mangaResults.toString()}")
 
             // Update the RecyclerView data.
             if (mangaResults != null && !response.hasErrors()) {

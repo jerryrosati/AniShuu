@@ -45,7 +45,6 @@ class UpdateCollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("JERRY", "in onViewCreated")
 
         // The view model for database operations.
         val application = requireNotNull(this.activity).application
@@ -60,7 +59,6 @@ class UpdateCollectionFragment : Fragment() {
             if (it.title?.romaji != null) {
                 mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer { doesExist ->
                     seriesExistsInDatabase = doesExist
-                    Log.i("JERRY", "Series ${it.title.romaji} exists in database: $seriesExistsInDatabase")
 
                     if (doesExist) {
                         mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
@@ -71,11 +69,8 @@ class UpdateCollectionFragment : Fragment() {
                             binding.publisherEntry.setText(manga.series.publisher)
                             binding.notesEntry.setText(manga.series.notes)
                             volumeList.clear()
-                            Log.i("JERRY", "Setting volumeList in observe")
-                            volumeList = manga.volumes as MutableList<MangaVolume>
-                            Log.i("JERRY", "VolumeList = $volumeList")
-                            adapter.notifyDataSetChanged()
-                            // volumeList.let { volumes -> adapter.submitList(volumes) }
+                            volumeList.addAll(manga.volumes)
+                            volumeList.let { volumes -> adapter.submitList(volumes) }
                         })
                     } else {
                         binding.titleEntry.setText(it.title.romaji)
@@ -95,9 +90,7 @@ class UpdateCollectionFragment : Fragment() {
             adapter.notifyDataSetChanged()
 
             if (it.toString().isNotEmpty()) {
-                Log.i("JERRY", "Setting volumeList in doAfterTextChanged")
                 for (i in 1..binding.numVolumesEntry.text.toString().toInt()) {
-                    Log.i("UpdateCollectionFragment", "Volume = $i")
                     volumeList.add(MangaVolume(i, "", false))
                 }
 
@@ -132,7 +125,6 @@ class UpdateCollectionFragment : Fragment() {
                     model.selected.value?.id ?: -1)
 
                 if (seriesExistsInDatabase) {
-                    Log.i("UpdateCollectionFragment", "in mangaviewmodel")
                     mangaViewModel.updateSeries(series)
                 } else {
                     mangaViewModel.insertSeries(series)
@@ -140,13 +132,10 @@ class UpdateCollectionFragment : Fragment() {
 
                 // Add the volumes to the database.
                 for (volume in volumeList) {
-                    Log.i("UpdateCollectionFragment", "Volume ${volume.volumeNum} owned = ${volume.owned}")
                     volume.seriesTitle = title
                     if (seriesExistsInDatabase) {
-                        Log.i("JERRY", "Updating volume: $volume")
                         mangaViewModel.updateVolume(volume)
                     } else {
-                        Log.i("JERRY", "Inserting volume: $volume")
                         mangaViewModel.insertVolume(volume)
                     }
                 }
