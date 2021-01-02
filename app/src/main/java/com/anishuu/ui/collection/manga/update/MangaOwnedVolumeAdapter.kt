@@ -50,7 +50,7 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
         }
 
         override fun areContentsTheSame(oldItem: MangaVolume, newItem: MangaVolume): Boolean {
-            return oldItem == newItem
+            return (oldItem.volumeId == newItem.volumeId) && (oldItem.owned == newItem.owned)
         }
     }
 }

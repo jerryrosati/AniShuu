@@ -22,6 +22,7 @@ import com.anishuu.db.manga.MangaVolume
 import com.anishuu.R
 import com.anishuu.databinding.UpdateCollectionFragmentBinding
 import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
+import timber.log.Timber
 
 class UpdateCollectionFragment : Fragment() {
     private lateinit var binding: UpdateCollectionFragmentBinding
@@ -132,10 +133,13 @@ class UpdateCollectionFragment : Fragment() {
 
                 // Add the volumes to the database.
                 for (volume in volumeList) {
+                    Timber.d("Volume: $volume")
                     volume.seriesTitle = title
                     if (seriesExistsInDatabase) {
+                        Timber.d("Updating")
                         mangaViewModel.updateVolume(volume)
                     } else {
+                        Timber.d("Inserting")
                         mangaViewModel.insertVolume(volume)
                     }
                 }
