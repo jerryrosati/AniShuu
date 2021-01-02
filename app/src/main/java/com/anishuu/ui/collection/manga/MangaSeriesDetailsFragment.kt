@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.anishuu.AnishuuApplication
 import com.anishuu.R
@@ -21,12 +22,17 @@ class MangaSeriesDetailsFragment : Fragment() {
     private lateinit var binding: MangaResultDetailsFragmentBinding
     private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
     private lateinit var mangaViewModel: MangaViewModel
+    private lateinit var adapter: MangaViewVolumeAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.manga_result_details_fragment,
             container,
             false)
+
+        adapter = MangaViewVolumeAdapter()
+        binding.ownedVolumes.adapter = adapter
+        binding.ownedVolumes.layoutManager = GridLayoutManager(context, 2)
         return binding.root
     }
 
@@ -62,8 +68,11 @@ class MangaSeriesDetailsFragment : Fragment() {
 
             // If the series is already in the collection, then change the "Add to collection" button to an "Edit Collection" button.
             if (it.title?.romaji != null) {
-                mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer { doesExist ->
-                    binding.collectionButton.text = getString(if (doesExist) R.string.edit_collection else R.string.add_to_collection)
+                mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
+                    binding.collectionButton.text = getString(if (manga != null) R.string.edit_collection else R.string.add_to_collection)
+                    binding.ownedVolumeHeader.visibility = if (manga != null) View.VISIBLE else View.GONE
+                    binding.ownedVolumes.visibility = if (manga != null) View.VISIBLE else View.GONE
+                    manga?.volumes?.let { volumes -> adapter.submitList(volumes) }
                 })
             }
         })
