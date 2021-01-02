@@ -1,10 +1,12 @@
 package com.anishuu.ui.collection.manga.update
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
@@ -143,6 +145,10 @@ class UpdateCollectionFragment : Fragment() {
                         mangaViewModel.insertVolume(volume)
                     }
                 }
+
+                // Hide the soft keyboard.
+                val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
                 // Navigate back to the collection screen.
                 findNavController().navigate(R.id.next_action, null)

@@ -1,11 +1,13 @@
 package com.anishuu.ui.collection.manga.search
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -78,6 +80,10 @@ class MangaSearchFragment : Fragment() {
      * Searches for a manga series on Anilist and update the UI with the results.
      */
     private fun searchMangaAndUpdateUI() {
+        // Hide the soft keyboard.
+        val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+
         lifecycleScope.launchWhenResumed {
             val response = try {
                 apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput()))
