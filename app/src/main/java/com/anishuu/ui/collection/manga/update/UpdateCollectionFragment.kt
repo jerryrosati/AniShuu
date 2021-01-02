@@ -141,7 +141,7 @@ class UpdateCollectionFragment : Fragment() {
                 }
 
                 // Navigate back to the collection screen.
-                findNavController().navigate(R.id.collection_dest, null)
+                findNavController().navigate(R.id.next_action, null)
             } else {
                 Toast.makeText(view.context, getString(R.string.title_required), Toast.LENGTH_SHORT).show()
             }
