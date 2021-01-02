@@ -16,6 +16,7 @@ import com.anishuu.R
 import com.anishuu.SearchMangaQuery
 import com.anishuu.apolloClient
 import com.anishuu.databinding.MangaSearchFragmentBinding
+import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException

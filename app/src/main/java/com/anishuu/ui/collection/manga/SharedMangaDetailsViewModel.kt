@@ -1,4 +1,4 @@
-package com.anishuu.ui.collection.manga.search
+package com.anishuu.ui.collection.manga
 
 import android.util.Log
 import androidx.lifecycle.LiveData

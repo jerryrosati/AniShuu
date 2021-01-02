@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.anishuu.AnishuuApplication
 import com.anishuu.ui.collection.manga.MangaViewModel
 import com.anishuu.ui.collection.manga.MangaViewModelFactory
@@ -22,7 +21,7 @@ import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
 import com.anishuu.R
 import com.anishuu.databinding.UpdateCollectionFragmentBinding
-import com.anishuu.ui.collection.manga.search.SharedMangaDetailsViewModel
+import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
 
 class UpdateCollectionFragment : Fragment() {
     private lateinit var binding: UpdateCollectionFragmentBinding

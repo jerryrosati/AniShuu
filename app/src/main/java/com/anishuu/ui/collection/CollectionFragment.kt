@@ -18,7 +18,7 @@ import com.anishuu.databinding.CollectionFragmentBinding
 import com.anishuu.ui.collection.manga.MangaCollectionAdapter
 import com.anishuu.ui.collection.manga.MangaViewModel
 import com.anishuu.ui.collection.manga.MangaViewModelFactory
-import com.anishuu.ui.collection.manga.search.SharedMangaDetailsViewModel
+import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
 
 class CollectionFragment : Fragment() {
     private lateinit var binding: CollectionFragmentBinding

@@ -1,4 +1,4 @@
-package com.anishuu.ui.collection.manga.search
+package com.anishuu.ui.collection.manga
 
 import android.os.Bundle
 import android.text.Html
@@ -16,8 +16,6 @@ import coil.load
 import com.anishuu.AnishuuApplication
 import com.anishuu.R
 import com.anishuu.databinding.MangaResultDetailsFragmentBinding
-import com.anishuu.ui.collection.manga.MangaViewModel
-import com.anishuu.ui.collection.manga.MangaViewModelFactory
 
 class MangaSeriesDetailsFragment : Fragment() {
     private lateinit var binding: MangaResultDetailsFragmentBinding
