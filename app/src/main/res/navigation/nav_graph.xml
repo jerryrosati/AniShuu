@@ -47,7 +47,7 @@
     <!-- View Manga Search Result Details screen -->
     <fragment
         android:id="@+id/view_manga_result_dest"
-        android:name="com.anishuu.ui.collection.manga.search.MangaSearchResultDetailsFragment"
+        android:name="com.anishuu.ui.collection.manga.search.MangaSeriesDetailsFragment"
         android:label="fragment_view_manga_result_details"
         tools:layout="@layout/manga_result_details_fragment">
 

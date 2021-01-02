@@ -19,7 +19,7 @@ import com.anishuu.databinding.MangaResultDetailsFragmentBinding
 import com.anishuu.ui.collection.manga.MangaViewModel
 import com.anishuu.ui.collection.manga.MangaViewModelFactory
 
-class MangaSearchResultDetailsFragment : Fragment() {
+class MangaSeriesDetailsFragment : Fragment() {
     private lateinit var binding: MangaResultDetailsFragmentBinding
     private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
     private lateinit var mangaViewModel: MangaViewModel
@@ -42,7 +42,7 @@ class MangaSearchResultDetailsFragment : Fragment() {
             .get(MangaViewModel::class.java)
 
         binding.collectionButton.setOnClickListener {
-            val action = MangaSearchResultDetailsFragmentDirections.updateCollection()
+            val action = MangaSeriesDetailsFragmentDirections.updateCollection()
             findNavController().navigate(action)
         }
 
@@ -64,8 +64,8 @@ class MangaSearchResultDetailsFragment : Fragment() {
 
             // If the series is already in the collection, then change the "Add to collection" button to an "Edit Collection" button.
             if (it.title?.romaji != null) {
-                mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer {
-                    binding.collectionButton.text = getString(R.string.edit_collection)
+                mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer { doesExist ->
+                    binding.collectionButton.text = getString(if (doesExist) R.string.edit_collection else R.string.add_to_collection)
                 })
             }
         })

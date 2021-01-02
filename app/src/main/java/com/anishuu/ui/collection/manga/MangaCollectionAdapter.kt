@@ -6,9 +6,15 @@ import com.anishuu.R
 import com.anishuu.db.manga.Manga
 import com.anishuu.ui.base.BaseSeriesAdapter
 
+/**
+ * Displays the items in the Manga collection.
+ *
+ * @property listener The onClickListener that's called when the user clicks on one of the collection items.
+ */
 class MangaCollectionAdapter(private val listener: (Manga) -> Unit) : BaseSeriesAdapter<Manga>(MangaComparator()) {
     override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
         val current = getItem(position)
+        
         if (current.series.imageUrl.isNotEmpty()) {
             holder.seriesImage.load(current.series.imageUrl)
         }
