@@ -18,17 +18,48 @@ import com.anishuu.ui.collection.manga.MangaCollectionAdapter
 import com.anishuu.ui.collection.manga.MangaViewModel
 import com.anishuu.ui.collection.manga.MangaViewModelFactory
 import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
-import timber.log.Timber
 
 class CollectionFragment : Fragment() {
     private lateinit var binding: CollectionFragmentBinding
     private lateinit var adapter: MangaCollectionAdapter
     private lateinit var mangaViewModel: MangaViewModel
     private lateinit var mangaToBeDeleted: Manga
-    private var isDeleting: Boolean = false
+    private var actionMode: ActionMode? = null
 
     // Shared Manga Details view model containing data on the selected series.
     private val selectedMangaViewModel: SharedMangaDetailsViewModel by activityViewModels()
+
+    private val actionModeCallback = object : ActionMode.Callback {
+        /**
+         * Called when the Action mode is created.
+         */
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            val inflater: MenuInflater = mode.menuInflater
+            inflater.inflate(R.menu.collection_fragment_contextual_menu, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.delete_item -> {
+                    mangaViewModel.deleteManga(mangaToBeDeleted)
+
+                    // Action is finished so close the contextual action bar.
+                    mode.finish()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            actionMode = null
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,18 +76,18 @@ class CollectionFragment : Fragment() {
 
         // Navigate to the Manga details screen when a title is clicked.
         adapter = MangaCollectionAdapter({ manga ->
-            // Turn off the "deleting" mode and invalidate the options menu to hide the deleting button.
-            isDeleting = false
-            requireActivity().invalidateOptionsMenu()
-
             selectedMangaViewModel.getMangaById(manga.series.anilistID)
             val action = CollectionFragmentDirections.viewSeries()
             findNavController().navigate(action)
         }, { manga ->
             // Turn on the "deleting" mode and invalidate the options menu to show the deleting button.
             mangaToBeDeleted = manga
-            isDeleting = true
-            requireActivity().invalidateOptionsMenu()
+
+            when (actionMode) {
+                null -> {
+                    actionMode = activity?.startActionMode(actionModeCallback)
+                }
+            }
         })
 
         binding.recyclerview.adapter = adapter
@@ -86,21 +117,8 @@ class CollectionFragment : Fragment() {
         inflater.inflate(R.menu.collection_fragment_menu, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        Timber.i("In onPrepareOptionsMenu. isDeleting = $isDeleting")
-        val item = menu.findItem(R.id.delete_item)
-        item.isVisible = isDeleting
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.delete_item -> {
-                mangaViewModel.deleteManga(mangaToBeDeleted)
-                isDeleting = false
-                requireActivity().invalidateOptionsMenu()
-                true
-            }
             R.id.add_item -> {
                 findNavController().navigate(R.id.add_series)
                 true
