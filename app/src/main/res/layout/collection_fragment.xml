@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="@string/add_manga"
-            android:src="@drawable/collection_add_icon"/>
+            android:src="@drawable/ic_search"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

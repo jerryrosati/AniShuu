@@ -101,6 +101,10 @@ class CollectionFragment : Fragment() {
                 requireActivity().invalidateOptionsMenu()
                 true
             }
+            R.id.add_item -> {
+                findNavController().navigate(R.id.add_series)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

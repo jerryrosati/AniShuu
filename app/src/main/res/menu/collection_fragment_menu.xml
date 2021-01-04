@@ -4,10 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/add_item"
+        android:visible="true"
+        android:title="@string/menu_add_item"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/delete_item"
         android:visible="false"
-        app:showAsAction="always"
         android:title="@string/menu_delete_item"
         android:icon="@drawable/ic_x_mark"
-        android:iconTint="@color/white" />
+        app:showAsAction="always" />
 </menu>

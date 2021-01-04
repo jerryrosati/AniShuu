@@ -18,6 +18,10 @@
         <action
             android:id="@+id/view_series"
             app:destination="@id/view_manga_result_dest" />
+
+        <action
+            android:id="@+id/add_series"
+            app:destination="@id/update_collection_dest" />
     </fragment>
 
     <!-- Update collection screen -->
