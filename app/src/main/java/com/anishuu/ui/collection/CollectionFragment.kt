@@ -29,6 +29,7 @@ class CollectionFragment : Fragment() {
     // Shared Manga Details view model containing data on the selected series.
     private val selectedMangaViewModel: SharedMangaDetailsViewModel by activityViewModels()
 
+    // The Action mode callback that's responsible for deleting collection items.
     private val actionModeCallback = object : ActionMode.Callback {
         /**
          * Called when the Action mode is created.
@@ -39,10 +40,16 @@ class CollectionFragment : Fragment() {
             return true
         }
 
+        /**
+         * Called each time the action mode is shown.
+         */
         override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
             return false
         }
 
+        /**
+         * Called when a contextual menu item is clicked.
+         */
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
             return when (item.itemId) {
                 R.id.delete_item -> {
@@ -56,6 +63,9 @@ class CollectionFragment : Fragment() {
             }
         }
 
+        /**
+         * Called when the user exists the action mode.
+         */
         override fun onDestroyActionMode(mode: ActionMode) {
             actionMode = null
         }
