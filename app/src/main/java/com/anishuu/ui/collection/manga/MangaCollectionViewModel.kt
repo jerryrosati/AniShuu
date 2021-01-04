@@ -75,6 +75,18 @@ class MangaViewModel(application: AnishuuApplication) : AndroidViewModel(applica
     fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
     }
+
+    /**
+     * Deletes a [Manga] in the database.
+     *
+     * @param manga The manga to delete.
+     */
+    fun deleteManga(manga: Manga) = viewModelScope.launch {
+        repository.deleteSeries(manga.series)
+        for (volume in manga.volumes) {
+            repository.deleteVolume(volume)
+        }
+    }
 }
 
 class MangaViewModelFactory(private val application: AnishuuApplication) : ViewModelProvider.Factory {

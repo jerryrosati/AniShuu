@@ -3,6 +3,7 @@
 
     <!-- Overflow menu items -->
     <string name="menu_delete_all">Delete All Items</string>
+    <string name="menu_delete_item">Delete item</string>
 
     <!-- Update Collection screen -->
     <string name="hint_title">Title</string>

@@ -11,7 +11,8 @@ import com.anishuu.ui.base.BaseSeriesAdapter
  *
  * @property listener The onClickListener that's called when the user clicks on one of the collection items.
  */
-class MangaCollectionAdapter(private val listener: (Manga) -> Unit) : BaseSeriesAdapter<Manga>(MangaComparator()) {
+class MangaCollectionAdapter(private val listener: (Manga) -> Unit, private val longPressListener: (Manga) -> Unit) :
+    BaseSeriesAdapter<Manga>(MangaComparator()) {
     override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
         val current = getItem(position)
         
@@ -21,6 +22,10 @@ class MangaCollectionAdapter(private val listener: (Manga) -> Unit) : BaseSeries
         holder.seriesTitle.text = current.series.title
         holder.seriesInfo.text = holder.itemView.resources.getString(R.string.manga_owned_count, current.volumes.count { it.owned }, current.volumes.size)
         holder.itemView.setOnClickListener { listener(current) }
+        holder.itemView.setOnLongClickListener {
+            longPressListener(current)
+            return@setOnLongClickListener true
+        }
     }
 
     class MangaComparator : DiffUtil.ItemCallback<Manga>() {

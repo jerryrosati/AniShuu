@@ -11,6 +11,9 @@ interface MangaVolumeDao {
     @Update
     suspend fun update(volume: MangaVolume)
 
+    @Delete
+    suspend fun delete(volume: MangaVolume)
+
     @Query("SELECT * FROM MangaVolume ORDER BY volumeNum ASC")
     fun getAllVolumes(): LiveData<List<MangaVolume>>
 

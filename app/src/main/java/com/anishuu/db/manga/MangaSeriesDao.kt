@@ -16,6 +16,9 @@ interface MangaSeriesDao {
     @Update
     suspend fun update(series: MangaSeries)
 
+    @Delete
+    suspend fun delete(series: MangaSeries)
+
      @Query("SELECT * from MangaSeries WHERE title = :title")
      fun getSeries(title: String): LiveData<Manga>
 

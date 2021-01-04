@@ -31,13 +31,14 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     }
 
     /**
-     * Deletes all items in the database.
+     * Deletes a [MangaSeries] in the database.
+     *
+     * @param series The manga series to delete
      */
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun deleteAll() {
-        mangaDao.deleteAll()
-        volumeDao.deleteAll()
+    suspend fun deleteSeries(series: MangaSeries) {
+        mangaDao.delete(series)
     }
 
     /**
@@ -81,5 +82,26 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     @WorkerThread
     suspend fun updateVolume(volume: MangaVolume) {
         volumeDao.update(volume)
+    }
+
+    /**
+     * Deletes a [MangaVolume] in the database.
+     *
+     * @param volume The volume to delete
+     */
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteVolume(volume: MangaVolume) {
+        volumeDao.delete(volume)
+    }
+
+    /**
+     * Deletes all items in the database.
+     */
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteAll() {
+        mangaDao.deleteAll()
+        volumeDao.deleteAll()
     }
 }
