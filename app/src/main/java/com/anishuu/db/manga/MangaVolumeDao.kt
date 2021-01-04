@@ -17,6 +17,9 @@ interface MangaVolumeDao {
     @Query("SELECT * FROM MangaVolume ORDER BY volumeNum ASC")
     fun getAllVolumes(): LiveData<List<MangaVolume>>
 
+    @Query("SELECT * from MangaVolume WHERE volumeId = :id")
+    fun getVolume(id: Long): LiveData<MangaVolume>
+
     @Query("DELETE FROM MangaVolume")
     suspend fun deleteAll()
 }

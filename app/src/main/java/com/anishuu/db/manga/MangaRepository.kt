@@ -85,6 +85,17 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     }
 
     /**
+     * Get a [MangaVolume] with the given id from the database.
+     *
+     * @param it The id of the volume to get
+     * @return LiveData containing the Volume.
+     */
+    @WorkerThread
+    fun getVolume(id: Long): LiveData<MangaVolume> {
+        return volumeDao.getVolume(id)
+    }
+
+    /**
      * Deletes a [MangaVolume] in the database.
      *
      * @param volume The volume to delete

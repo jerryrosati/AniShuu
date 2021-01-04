@@ -12,7 +12,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,7 +24,9 @@ import com.anishuu.ui.collection.manga.MangaViewModelFactory
 import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
 import com.anishuu.R
+import com.anishuu.SearchMangaQuery
 import com.anishuu.databinding.UpdateCollectionFragmentBinding
+import com.anishuu.db.manga.Manga
 import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
 import timber.log.Timber
 
@@ -31,6 +35,7 @@ class UpdateCollectionFragment : Fragment() {
     private lateinit var adapter: MangaOwnedVolumeAdapter
     private val model: SharedMangaDetailsViewModel by activityViewModels()
     private var seriesExistsInDatabase: Boolean = false
+    private lateinit var seriesLiveData: LiveData<Manga>
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -54,32 +59,35 @@ class UpdateCollectionFragment : Fragment() {
         val mangaViewModelFactory = MangaViewModelFactory(application as AnishuuApplication)
         val mangaViewModel = ViewModelProvider(this, mangaViewModelFactory)
             .get(MangaViewModel::class.java)
+        var title: String? = ""
+        var selected: Manga? = null
+
+        // Get the selected series from the database.
+        seriesLiveData = Transformations.switchMap(model.selected) {
+            title = it?.title?.romaji
+            it?.title?.romaji?.let { title -> mangaViewModel.getSeries(title) }
+        }
 
         // The list of volumes for the series.
         var volumeList = mutableListOf<MangaVolume>()
+        var selectedSeriesVolumeList = mutableListOf<MangaVolume>()
 
-        model.selected.observe(viewLifecycleOwner, Observer {
-            if (it.title?.romaji != null) {
-                mangaViewModel.doesSeriesExist(it.title.romaji).observe(viewLifecycleOwner, Observer { doesExist ->
-                    seriesExistsInDatabase = doesExist
+        seriesLiveData.observe(viewLifecycleOwner, Observer { manga ->
+            if (manga != null) {
+                selected = manga
+                seriesExistsInDatabase = true
+                selectedSeriesVolumeList = manga.volumes.toMutableList()
+                selectedSeriesVolumeList.let { volumes -> adapter.submitList(volumes) }
 
-                    if (doesExist) {
-                        mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
-                            binding.titleEntry.setText(manga.series.title)
-                            binding.numVolumesEntry.setText(if (manga.series.numVolumes > 0) manga.series.numVolumes.toString() else "")
-                            binding.authorEntry.setText(manga.series.author)
-                            binding.languageEntry.setText(manga.series.language)
-                            binding.publisherEntry.setText(manga.series.publisher)
-                            binding.notesEntry.setText(manga.series.notes)
-                            volumeList.clear()
-                            volumeList.addAll(manga.volumes)
-                            volumeList.let { volumes -> adapter.submitList(volumes) }
-                        })
-                    } else {
-                        binding.titleEntry.setText(it.title.romaji)
-                        binding.numVolumesEntry.setText(it.volumes?.toString())
-                    }
-                })
+                binding.titleEntry.setText(manga.series.title)
+                binding.numVolumesEntry.setText(if (manga.series.numVolumes > 0) manga.series.numVolumes.toString() else "")
+                binding.authorEntry.setText(manga.series.author)
+                binding.languageEntry.setText(manga.series.language)
+                binding.publisherEntry.setText(manga.series.publisher)
+                binding.notesEntry.setText(manga.series.notes)
+            } else {
+                seriesExistsInDatabase = false
+                binding.titleEntry.setText(title)
             }
         })
 
@@ -93,8 +101,27 @@ class UpdateCollectionFragment : Fragment() {
             adapter.notifyDataSetChanged()
 
             if (it.toString().isNotEmpty()) {
-                for (i in 1..binding.numVolumesEntry.text.toString().toInt()) {
-                    volumeList.add(MangaVolume(i, "", false))
+                val numVolumesEntered: Int = binding.numVolumesEntry.text.toString().toInt()
+                val selectedSeriesVolumeCount = selectedSeriesVolumeList.size
+
+                if (seriesExistsInDatabase) {
+                    if (numVolumesEntered < selectedSeriesVolumeCount) {
+                        // If the number of volumes entered is less than the number of volumes already stored, get a sublist.
+                        volumeList = selectedSeriesVolumeList.subList(0, numVolumesEntered + 1)
+                    } else if (numVolumesEntered > selectedSeriesVolumeCount) {
+                        // If the number of volumes entered is greater than the number of volumes already stored, add the difference.
+                        volumeList = selectedSeriesVolumeList
+                        for (i in selectedSeriesVolumeCount..numVolumesEntered) {
+                            volumeList.add(MangaVolume(i, "", false))
+                        }
+                    } else {
+                        // Otherwise, just copy the selected series' volumes
+                        volumeList = selectedSeriesVolumeList
+                    }
+                } else {
+                    for (i in 1..binding.numVolumesEntry.text.toString().toInt()) {
+                        volumeList.add(MangaVolume(i, "", false))
+                    }
                 }
 
                 volumeList.let { list -> adapter.submitList(list) }
@@ -134,14 +161,21 @@ class UpdateCollectionFragment : Fragment() {
                 }
 
                 // Add the volumes to the database.
+                var volumeFound: Boolean
                 for (volume in volumeList) {
+                    volumeFound = false
                     Timber.d("Volume: $volume")
                     volume.seriesTitle = title
-                    if (seriesExistsInDatabase) {
-                        Timber.d("Updating")
+
+                    if (selected != null) {
+                        if (selected?.volumes?.find { it.volumeId == volume.volumeId && it.seriesTitle == title && it.volumeNum == volume.volumeNum } != null) {
+                            volumeFound = true
+                        }
+                    }
+
+                    if (volumeFound) {
                         mangaViewModel.updateVolume(volume)
                     } else {
-                        Timber.d("Inserting")
                         mangaViewModel.insertVolume(volume)
                     }
                 }

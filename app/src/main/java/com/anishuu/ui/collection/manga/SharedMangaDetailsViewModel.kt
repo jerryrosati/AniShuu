@@ -19,9 +19,9 @@ import timber.log.Timber
  * @property selected The selected [SearchMangaQuery.Medium] object.
  */
 class SharedMangaDetailsViewModel : ViewModel() {
-    private val _selected = MutableLiveData<SearchMangaQuery.Medium>()
-    val selected: LiveData<SearchMangaQuery.Medium>
-        get() = _selected
+    // private val _selected = MutableLiveData<SearchMangaQuery.Medium>()
+    val selected = MutableLiveData<SearchMangaQuery.Medium>()
+        // get() = _selected
 
     /**
      * Set the selected Manga series.
@@ -29,7 +29,7 @@ class SharedMangaDetailsViewModel : ViewModel() {
      * @param series The selected series.
      */
     fun select(series: SearchMangaQuery.Medium) {
-        _selected.value = series
+        selected.value = series
     }
 
     /**
@@ -47,6 +47,6 @@ class SharedMangaDetailsViewModel : ViewModel() {
         }
 
         val mangaResults = response?.data?.page?.media?.filterNotNull()
-        _selected.value = mangaResults?.first()
+        selected.value = mangaResults?.first()
     }
 }

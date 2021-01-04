@@ -70,6 +70,16 @@ class MangaViewModel(application: AnishuuApplication) : AndroidViewModel(applica
     }
 
     /**
+     * Get a [MangaVolume] with the given id from the database.
+     *
+     * @param it The id of the volume to get
+     * @return LiveData containing the Volume.
+     */
+    fun getVolume(id: Long): LiveData<MangaVolume> {
+        return repository.getVolume(id)
+    }
+
+    /**
      * Deletes all items in the database.
      */
     fun deleteAll() = viewModelScope.launch {
