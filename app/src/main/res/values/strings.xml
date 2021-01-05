@@ -18,6 +18,8 @@
     <string name="add_manga">Add Manga</string>
     <string name="volume_number">Volume %d</string>
     <string name="title_required">Title is required to save manga</string>
+    <string name="select_all">Select All</string>
+    <string name="select_none">Select None</string>
 
     <!-- Manga Collection Details screen -->
     <string name="manga_details_num_volumes">Number of volumes: %d</string>

@@ -140,6 +140,24 @@ class UpdateCollectionFragment : Fragment() {
             }
         }
 
+        // Select all volumes if the user presses select all.
+        binding.selectAll.setOnClickListener {
+            volumeList.forEach {
+                it.owned = true
+            }
+            adapter.notifyDataSetChanged()
+            volumeList.let { list -> adapter.submitList(list) }
+        }
+
+        // De-select all of the volumes if the user presses select none.
+        binding.selectNone.setOnClickListener {
+            volumeList.forEach {
+                it.owned = false
+            }
+            adapter.notifyDataSetChanged()
+            volumeList.let { list -> adapter.submitList(list) }
+        }
+
         // Save the Manga to the database when the save button is pressed.
         binding.buttonSave.setOnClickListener {
             val title = binding.titleEntry.text.toString()
