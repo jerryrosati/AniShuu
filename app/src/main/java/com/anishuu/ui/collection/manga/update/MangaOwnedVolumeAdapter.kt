@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
 import com.anishuu.db.manga.MangaVolume
+import timber.log.Timber
 
-class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter.MangaVolumeViewHolder>(
-    MangaVolumeComparator()
-) {
+class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter.MangaVolumeViewHolder>(MangaVolumeComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaVolumeViewHolder {
         return MangaVolumeViewHolder.create(parent)
     }
@@ -28,10 +27,13 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
 
         fun bind(volume: MangaVolume) {
+            Timber.i("Binding volume: $volume")
             volumeView.text = itemView.resources.getString(R.string.volume_number, volume.volumeNum)
             checkbox.isChecked = volume.owned
             checkbox.setOnCheckedChangeListener { _, isChecked ->
+                Timber.i("Checking volume: $volume")
                 volume.owned = isChecked
+                Timber.i("Volume after checking: $volume")
             }
         }
 
@@ -46,7 +48,7 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
 
     class MangaVolumeComparator : DiffUtil.ItemCallback<MangaVolume>() {
         override fun areItemsTheSame(oldItem: MangaVolume, newItem: MangaVolume): Boolean {
-            return oldItem === newItem
+            return false // oldItem === newItem
         }
 
         override fun areContentsTheSame(oldItem: MangaVolume, newItem: MangaVolume): Boolean {

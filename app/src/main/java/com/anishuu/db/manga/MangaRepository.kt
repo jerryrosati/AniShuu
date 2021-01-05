@@ -85,6 +85,28 @@ class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDa
     }
 
     /**
+     * Tries to insert a volume, and updates it if the volume already exists.
+     *
+     * @param volume The volume to insert or update.
+     */
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertOrUpdateVolume(volume: MangaVolume) {
+        volumeDao.insertOrUpdate(volume)
+    }
+
+    /**
+     * Tries to insert a list of volumes, and updates them if the volumes in the list already exist.
+     *
+     * @param volumeList The list of volumes to insert or update.
+     */
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertOrUpdateVolume(volumeList: List<MangaVolume>) {
+        volumeDao.insertOrUpdate(volumeList)
+    }
+
+    /**
      * Get a [MangaVolume] with the given id from the database.
      *
      * @param it The id of the volume to get
