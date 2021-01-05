@@ -98,6 +98,15 @@ class MangaViewModel(application: AnishuuApplication) : AndroidViewModel(applica
     }
 
     /**
+     * Deletes a [MangaVolume] from the database.
+     *
+     * @param volume The volume to delete.
+     */
+    fun deleteVolume(volume: MangaVolume) = viewModelScope.launch {
+        repository.deleteVolume(volume)
+    }
+
+    /**
      * Deletes all items in the database.
      */
     fun deleteAll() = viewModelScope.launch {

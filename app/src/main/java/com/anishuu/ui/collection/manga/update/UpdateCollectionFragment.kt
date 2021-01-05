@@ -169,12 +169,19 @@ class UpdateCollectionFragment : Fragment() {
                     mangaViewModel.insertSeries(series)
                 }
 
-                // Add the volumes to the database.
+                // Add the list of owned volumes to the database.
                 for (volume in volumeList) {
                     volume.seriesTitle = title
                 }
-
                 mangaViewModel.insertOrUpdateVolume(volumeList)
+
+                // If the manga series is already in the database, but the user decreased the number of volumes that are part of the series,
+                // delete any extra volumes.
+                if (volumeList.size < selectedSeriesVolumeList.size) {
+                    selectedSeriesVolumeList.subList(volumeList.size, selectedSeriesVolumeList.size).forEach {
+                        mangaViewModel.deleteVolume(it)
+                    }
+                }
 
                 // Hide the soft keyboard.
                 val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
