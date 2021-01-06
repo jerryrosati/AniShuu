@@ -51,9 +51,9 @@
     <!-- View Manga Search Result Details screen -->
     <fragment
         android:id="@+id/view_manga_result_dest"
-        android:name="com.anishuu.ui.collection.manga.MangaSeriesDetailsFragment"
+        android:name="com.anishuu.ui.collection.manga.details.MangaSeriesDetailsFragment"
         android:label="fragment_view_manga_result_details"
-        tools:layout="@layout/manga_result_details_fragment">
+        tools:layout="@layout/manga_series_details_fragment">
 
         <action
             android:id="@+id/update_collection"

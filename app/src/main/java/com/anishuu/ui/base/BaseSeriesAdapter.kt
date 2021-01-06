@@ -20,7 +20,7 @@ abstract class BaseSeriesAdapter<T>(comparator: DiffUtil.ItemCallback<T>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.manga_results_adapter_item, parent, false)
+            .inflate(R.layout.manga_series_adapter_item, parent, false)
         return SeriesViewHolder(view)
     }
 

@@ -130,7 +130,7 @@
                 android:paddingBottom="16dp"
                 android:visibility="gone"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/manga_view_volume_adapter_item"
+                tools:listitem="@layout/manga_owned_volume_adapter_item"
                 tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

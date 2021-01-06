@@ -1,4 +1,4 @@
-package com.anishuu.ui.collection.manga
+package com.anishuu.ui.collection.manga.details
 
 import android.os.Bundle
 import android.text.Html
@@ -16,17 +16,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.anishuu.AnishuuApplication
 import com.anishuu.R
-import com.anishuu.databinding.MangaResultDetailsFragmentBinding
+import com.anishuu.databinding.MangaSeriesDetailsFragmentBinding
+import com.anishuu.ui.collection.manga.*
 
 class MangaSeriesDetailsFragment : Fragment() {
-    private lateinit var binding: MangaResultDetailsFragmentBinding
+    private lateinit var binding: MangaSeriesDetailsFragmentBinding
     private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
     private lateinit var mangaViewModel: MangaViewModel
     private lateinit var adapter: MangaViewVolumeAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
-            R.layout.manga_result_details_fragment,
+            R.layout.manga_series_details_fragment,
             container,
             false)
 

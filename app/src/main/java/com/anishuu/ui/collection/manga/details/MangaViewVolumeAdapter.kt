@@ -1,9 +1,8 @@
-package com.anishuu.ui.collection.manga
+package com.anishuu.ui.collection.manga.details
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -15,7 +14,9 @@ import com.anishuu.db.manga.MangaVolume
 /**
  * Defines the adapter for the owned volume RecyclerView in the MangaSeriesDetailsFragment.
  */
-class MangaViewVolumeAdapter : ListAdapter<MangaVolume, MangaViewVolumeAdapter.MangaVolumeViewHolder>(MangaVolumeComparator()) {
+class MangaViewVolumeAdapter : ListAdapter<MangaVolume, MangaViewVolumeAdapter.MangaVolumeViewHolder>(
+    MangaVolumeComparator()
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaVolumeViewHolder {
         return MangaVolumeViewHolder.create(parent)
     }
@@ -37,7 +38,7 @@ class MangaViewVolumeAdapter : ListAdapter<MangaVolume, MangaViewVolumeAdapter.M
         companion object {
             fun create(parent: ViewGroup): MangaVolumeViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.manga_view_volume_adapter_item, parent, false)
+                    .inflate(R.layout.manga_owned_volume_adapter_item, parent, false)
                 return MangaVolumeViewHolder(view)
             }
         }

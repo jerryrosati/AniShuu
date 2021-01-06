@@ -152,7 +152,6 @@
                 android:layout_marginTop="@dimen/big_padding"
                 android:layout_marginBottom="@dimen/big_padding"
                 android:visibility="gone"
-                tools:listitem="@layout/manga_adapter_item"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/select_all"/>

@@ -40,7 +40,7 @@ class MangaOwnedVolumeAdapter : ListAdapter<MangaVolume, MangaOwnedVolumeAdapter
         companion object {
             fun create(parent: ViewGroup): MangaVolumeViewHolder {
                 val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.manga_volume_adapter_item, parent, false)
+                    .inflate(R.layout.manga_update_volume_adapter_item, parent, false)
                 return MangaVolumeViewHolder(view)
             }
         }
