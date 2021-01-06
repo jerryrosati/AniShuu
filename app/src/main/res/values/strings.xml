@@ -29,6 +29,10 @@
     <string name="manga_details_notes">Notes: %s</string>
     <string name="manga_details_volumes_owned">Volumes owned: %s</string>
     <string name="manga_owned_count">Owned: %d/%d</string>
+    <string-array name="manga_details_tab_names">
+        <item>Details</item>
+        <item>Collection</item>
+    </string-array>
 
     <!-- Manga Search Result Details Screen -->
     <string name="manga_result_details_date">%d/%d/%d</string>

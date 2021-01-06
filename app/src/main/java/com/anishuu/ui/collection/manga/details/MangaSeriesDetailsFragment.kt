@@ -23,17 +23,12 @@ class MangaSeriesDetailsFragment : Fragment() {
     private lateinit var binding: MangaSeriesDetailsFragmentBinding
     private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
     private lateinit var mangaViewModel: MangaViewModel
-    private lateinit var adapter: MangaViewVolumeAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.manga_series_details_fragment,
             container,
             false)
-
-        adapter = MangaViewVolumeAdapter()
-        binding.ownedVolumes.adapter = adapter
-        binding.ownedVolumes.layoutManager = GridLayoutManager(context, 2)
         return binding.root
     }
 
@@ -47,7 +42,7 @@ class MangaSeriesDetailsFragment : Fragment() {
             .get(MangaViewModel::class.java)
 
         binding.collectionButton.setOnClickListener {
-            val action = MangaSeriesDetailsFragmentDirections.updateCollection()
+            val action = MangaSeriesFragmentDirections.updateCollection()
             findNavController().navigate(action)
         }
 
@@ -71,9 +66,6 @@ class MangaSeriesDetailsFragment : Fragment() {
             if (it.title?.romaji != null) {
                 mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
                     binding.collectionButton.text = getString(if (manga != null) R.string.edit_collection else R.string.add_to_collection)
-                    binding.ownedVolumeHeader.visibility = if (manga != null) View.VISIBLE else View.GONE
-                    binding.ownedVolumes.visibility = if (manga != null) View.VISIBLE else View.GONE
-                    manga?.volumes?.let { volumes -> adapter.submitList(volumes) }
                 })
             }
         })

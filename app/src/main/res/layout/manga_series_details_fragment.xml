@@ -80,6 +80,7 @@
                 app:layout_constraintTop_toBottomOf="@id/status_header"
                 app:layout_constraintStart_toStartOf="@id/status_header" />
 
+
             <!-- Collection button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/collection_button"
@@ -104,39 +105,6 @@
                 app:layout_constraintTop_toBottomOf="@id/collection_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/owned_volume_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Owned Volumes:"
-                android:visibility="gone"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                tools:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/manga_description" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/owned_volumes"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/big_padding"
-                android:paddingStart="@dimen/big_padding"
-                android:paddingEnd="@dimen/big_padding"
-                android:paddingBottom="16dp"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/manga_owned_volume_adapter_item"
-                tools:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/owned_volume_header" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

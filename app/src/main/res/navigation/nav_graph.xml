@@ -17,7 +17,7 @@
 
         <action
             android:id="@+id/view_series"
-            app:destination="@id/view_manga_result_dest" />
+            app:destination="@id/manga_series_dest" />
 
         <action
             android:id="@+id/add_series"
@@ -45,15 +45,15 @@
 
         <action
             android:id="@+id/view_result_details"
-            app:destination="@id/view_manga_result_dest" />
+            app:destination="@id/manga_series_dest" />
     </fragment>
 
-    <!-- View Manga Search Result Details screen -->
+    <!-- Manga Series -->
     <fragment
-        android:id="@+id/view_manga_result_dest"
-        android:name="com.anishuu.ui.collection.manga.details.MangaSeriesDetailsFragment"
-        android:label="fragment_view_manga_result_details"
-        tools:layout="@layout/manga_series_details_fragment">
+        android:id="@+id/manga_series_dest"
+        android:name="com.anishuu.ui.collection.manga.details.MangaSeriesFragment"
+        android:label="fragment_manga_series"
+        tools:layout="@layout/manga_series_fragment">
 
         <action
             android:id="@+id/update_collection"
