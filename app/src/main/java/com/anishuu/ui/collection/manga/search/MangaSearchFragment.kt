@@ -14,6 +14,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -37,18 +39,21 @@ class MangaSearchFragment : Fragment() {
     // Shared Manga Details view model containing data on the selected series.
     private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
 
+    // The MangaSearchFragment's view model.
+    private val viewModel: MangaSearchViewModel by lazy {
+        ViewModelProvider(this).get(MangaSearchViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.manga_search_fragment,
             container,
             false)
 
-        // Set click listener for the displayed result items.
+        // Navigate to the Manga Details screen when a search result is clicked.
         adapter = MangaResultsAdapter() {
-            // Update the view model with the manga details.
             sharedModel.select(it)
 
-            // Navigate to the manga details screen.
             val action = MangaSearchFragmentDirections.viewResultDetails()
             findNavController().navigate(action)
         }
@@ -77,33 +82,26 @@ class MangaSearchFragment : Fragment() {
                 else -> false
             }
         }
+
+        // Listen for search results and update the list.
+        viewModel.mangaResults.observe(viewLifecycleOwner, Observer { results ->
+            if (results != null) {
+                Timber.i("Manga Result: $results")
+                savedResults.addAll(results)
+                results.let { adapter.submitList(results) }
+            }
+        })
     }
 
     /**
-     * Searches for a manga series on Anilist and update the UI with the results.
+     * Searches for a manga series on Anilist.
      */
     private fun searchMangaAndUpdateUI() {
         // Hide the soft keyboard.
         val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
 
-        lifecycleScope.launchWhenResumed {
-            val response = try {
-                apolloClient.query(SearchMangaQuery(search = binding.searchBox.text.toString().toInput()))
-                    .await()
-            } catch (e: ApolloException) {
-                Timber.d("Failure: $e")
-                null
-            }
-
-            val mangaResults = response?.data?.page?.media?.filterNotNull()
-            Timber.i("Manga Result: ${mangaResults.toString()}")
-
-            // Update the RecyclerView data.
-            if (mangaResults != null && !response.hasErrors()) {
-                savedResults.addAll(mangaResults)
-                mangaResults.let { adapter.submitList(it) }
-            }
-        }
+        // Perform the query.
+        viewModel.searchManga(binding.searchBox.text.toString())
     }
 }
