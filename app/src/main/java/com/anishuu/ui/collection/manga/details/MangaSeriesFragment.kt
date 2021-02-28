@@ -1,3 +1,6 @@
+/**
+ * Defines the fragment responsible for the tab layout that holds a manga's series and collection detail fragments.
+ */
 package com.anishuu.ui.collection.manga.details
 
 import android.os.Bundle
@@ -36,6 +39,5 @@ class MangaSeriesFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = resources.getStringArray(R.array.manga_details_tab_names)[position]
         }.attach()
-
     }
 }

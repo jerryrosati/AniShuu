@@ -1,3 +1,6 @@
+/**
+ * Defines the adapter that holds manga found when a user searches Anilist.
+ */
 package com.anishuu.ui.collection.manga.search
 
 import androidx.recyclerview.widget.DiffUtil

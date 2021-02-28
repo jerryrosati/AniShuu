@@ -1,3 +1,6 @@
+/**
+ * Defines the screen for displaying the volumes in a collection for a chosen manga.
+ */
 package com.anishuu.ui.collection.manga.details
 
 import android.os.Bundle
@@ -59,5 +62,4 @@ class MangaSeriesCollectionFragment : Fragment() {
             }
         })
     }
-
 }

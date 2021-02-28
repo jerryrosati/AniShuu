@@ -1,3 +1,6 @@
+/**
+ * Screen for updating a manga in the collection.
+ */
 package com.anishuu.ui.collection.manga.update
 
 import android.app.Activity

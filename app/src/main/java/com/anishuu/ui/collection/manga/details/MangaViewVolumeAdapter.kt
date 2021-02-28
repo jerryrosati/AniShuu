@@ -1,3 +1,6 @@
+/**
+ * Defines the adapter for the owned volume RecyclerView in the MangaSeriesDetailsFragment.
+ */
 package com.anishuu.ui.collection.manga.details
 
 import android.view.LayoutInflater
@@ -11,9 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anishuu.R
 import com.anishuu.db.manga.MangaVolume
 
-/**
- * Defines the adapter for the owned volume RecyclerView in the MangaSeriesDetailsFragment.
- */
 class MangaViewVolumeAdapter : ListAdapter<MangaVolume, MangaViewVolumeAdapter.MangaVolumeViewHolder>(
     MangaVolumeComparator()
 ) {

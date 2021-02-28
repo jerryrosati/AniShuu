@@ -1,3 +1,6 @@
+/**
+ * Defines the screen for displaying information about a manga series.
+ */
 package com.anishuu.ui.collection.manga.details
 
 import android.os.Bundle

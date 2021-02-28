@@ -1,3 +1,6 @@
+/**
+ * Defines the adapter for the manga series in the collection.
+ */
 package com.anishuu.ui.collection.manga
 
 import androidx.recyclerview.widget.DiffUtil

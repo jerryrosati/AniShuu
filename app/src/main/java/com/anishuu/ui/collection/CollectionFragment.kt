@@ -1,3 +1,6 @@
+/**
+ * Defines the fragment for displaying a list of the manga in a user's collection.
+ */
 package com.anishuu.ui.collection
 
 import android.os.Bundle

@@ -1,3 +1,6 @@
+/**
+ * An adapter for checking off volumes of a manga the user owns.
+ */
 package com.anishuu.ui.collection.manga.update
 
 import com.anishuu.R
