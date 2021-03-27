@@ -9,13 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import coil.load
 import com.anishuu.R
 import com.anishuu.databinding.MangaSeriesFragmentBinding
+import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MangaSeriesFragment : Fragment() {
     private lateinit var binding: MangaSeriesFragmentBinding
+    private val sharedModel: SharedMangaDetailsViewModel by activityViewModels()
     private val fragmentList = mutableListOf<Fragment>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,5 +44,14 @@ class MangaSeriesFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = resources.getStringArray(R.array.manga_details_tab_names)[position]
         }.attach()
+
+        // Update the banner image.
+        sharedModel.selected.observe(viewLifecycleOwner, Observer {
+            if (it.bannerImage.isNullOrEmpty()) {
+                binding.bannerImage.visibility = View.GONE
+            } else {
+                binding.bannerImage.load(it.bannerImage)
+            }
+        })
     }
 }

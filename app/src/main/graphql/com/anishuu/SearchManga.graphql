@@ -21,7 +21,7 @@ query SearchManga($id: Int, $page: Int, $perPage: Int, $search: String) {
                 month
                 day
             }
-            title { romaji }
+            title { romaji native }
             coverImage { extraLarge color }
             staff {
                 edges {
