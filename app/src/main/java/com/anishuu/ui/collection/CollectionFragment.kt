@@ -21,6 +21,7 @@ import com.anishuu.ui.collection.manga.MangaCollectionAdapter
 import com.anishuu.ui.collection.manga.MangaViewModel
 import com.anishuu.ui.collection.manga.MangaViewModelFactory
 import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class CollectionFragment : Fragment() {
     private lateinit var binding: CollectionFragmentBinding
@@ -119,11 +120,11 @@ class CollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
         // Update Manga adapter data when the view model is updated.
-        mangaViewModel.allTitles.observe(viewLifecycleOwner, Observer { words ->
-            words?.let { adapter.submitList(it) }
-        })
+        mangaViewModel.getAllSeries()
+            .subscribeOn(Schedulers.io())
+            .subscribe { titles -> adapter.submitList(titles) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

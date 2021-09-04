@@ -2,11 +2,21 @@ package com.anishuu.db.manga
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.Flow
 
 class MangaRepository(private val mangaDao: MangaSeriesDao, private val volumeDao: MangaVolumeDao) {
     // A list of titles stored in alphabetical order.
-    val allTitles: Flow<List<Manga>> = mangaDao.getAlphabetizedTitles()
+    //val allTitles: Flow<List<Manga>> = mangaDao.getAlphabetizedTitles()
+
+    /**
+     * Gets all titles from the database in alphabetical order.
+     */
+    @WorkerThread
+    fun getAllTitles(): Single<List<Manga>>
+    {
+        return mangaDao.getAlphabetizedTitles()
+    }
 
     /**
      * Insert a MangaSeries into the database.

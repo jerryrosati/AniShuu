@@ -5,13 +5,15 @@ import com.anishuu.AnishuuApplication
 import com.anishuu.db.manga.Manga
 import com.anishuu.db.manga.MangaSeries
 import com.anishuu.db.manga.MangaVolume
+import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.launch
 
 class MangaViewModel(application: AnishuuApplication) : AndroidViewModel(application) {
     private val repository = application.repository
 
-    // A list of all titles stored in the database.
-    val allTitles: LiveData<List<Manga>> = repository.allTitles.asLiveData()
+    fun getAllSeries(): Single<List<Manga>> {
+        return repository.getAllTitles()
+    }
 
     /**
      * Insert a MangaSeries into the database.
