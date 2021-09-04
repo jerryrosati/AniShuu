@@ -19,7 +19,6 @@ import timber.log.Timber
  * @property selected The selected [SearchMangaQuery.Medium] object.
  */
 class SharedMangaDetailsViewModel : ViewModel() {
-    // private val _selected = MutableLiveData<SearchMangaQuery.Medium>()
     val selected = MutableLiveData<SearchMangaQuery.Medium>()
         // get() = _selected
 

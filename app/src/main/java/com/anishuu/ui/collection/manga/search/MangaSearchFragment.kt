@@ -5,7 +5,6 @@ package com.anishuu.ui.collection.manga.search
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,19 +13,15 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.anishuu.R
 import com.anishuu.SearchMangaQuery
-import com.anishuu.apolloClient
 import com.anishuu.databinding.MangaSearchFragmentBinding
 import com.anishuu.ui.collection.manga.SharedMangaDetailsViewModel
-import com.apollographql.apollo.api.toInput
-import com.apollographql.apollo.coroutines.await
-import com.apollographql.apollo.exception.ApolloException
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 
 class MangaSearchFragment : Fragment() {
@@ -82,15 +77,6 @@ class MangaSearchFragment : Fragment() {
                 else -> false
             }
         }
-
-        // Listen for search results and update the list.
-        viewModel.mangaResults.observe(viewLifecycleOwner, Observer { results ->
-            if (results != null) {
-                Timber.i("Manga Result: $results")
-                savedResults.addAll(results)
-                results.let { adapter.submitList(results) }
-            }
-        })
     }
 
     /**
@@ -101,7 +87,18 @@ class MangaSearchFragment : Fragment() {
         val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
 
-        // Perform the query.
+        // Perform the query and update the displayed results.
         viewModel.searchManga(binding.searchBox.text.toString())
+            .subscribeOn(Schedulers.io())
+            .filter { response -> !response.hasErrors() && response.data?.page?.media != null }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { response ->
+                val results = response.data?.page?.media?.filterNotNull()
+                if (results != null) {
+                    Timber.i("Manga Results: $results")
+                    savedResults.addAll(results)
+                    results.let { adapter.submitList(results) }
+                }
+            }
     }
 }

@@ -54,6 +54,7 @@ dependencies {
     // Apollo
     implementation("com.apollographql.apollo:apollo-runtime:2.4.6")
     implementation("com.apollographql.apollo:apollo-coroutines-support:2.4.6")
+    implementation("com.apollographql.apollo:apollo-rx3-support:2.4.6")
 
     // Room components
     implementation("androidx.room:room-ktx:2.3.0")
