@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.anishuu.R
 import com.anishuu.db.manga.Manga
-import com.anishuu.ui.base.BaseSeriesAdapter
+import com.anishuu.ui.base.adapter.BaseSeriesAdapter
 
 /**
  * Displays the items in the Manga collection.

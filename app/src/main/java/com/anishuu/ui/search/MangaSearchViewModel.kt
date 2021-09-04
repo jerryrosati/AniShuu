@@ -1,7 +1,7 @@
 /**
  * Defines a View Model for the MangaSearchFragment.
  */
-package com.anishuu.ui.collection.manga.search
+package com.anishuu.ui.search
 
 import androidx.lifecycle.ViewModel
 import com.anishuu.SearchMangaQuery

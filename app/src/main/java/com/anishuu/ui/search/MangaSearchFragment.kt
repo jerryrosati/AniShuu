@@ -1,7 +1,7 @@
 /**
  * Defines the fragment used to search Anilist for a manga.
  */
-package com.anishuu.ui.collection.manga.search
+package com.anishuu.ui.search
 
 import android.app.Activity
 import android.os.Bundle

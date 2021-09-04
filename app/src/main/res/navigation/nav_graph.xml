@@ -39,7 +39,7 @@
     <!-- Search Manga screen -->
     <fragment
         android:id="@+id/search_manga_dest"
-        android:name="com.anishuu.ui.collection.manga.search.MangaSearchFragment"
+        android:name="com.anishuu.ui.search.MangaSearchFragment"
         android:label="fragment_search_manga"
         tools:layout="@layout/manga_search_fragment">
 

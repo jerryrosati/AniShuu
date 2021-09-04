@@ -1,14 +1,14 @@
 /**
  * Defines the adapter that holds manga found when a user searches Anilist.
  */
-package com.anishuu.ui.collection.manga.search
+package com.anishuu.ui.search
 
 import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.anishuu.R
 import com.anishuu.SearchMangaQuery
 import com.anishuu.type.MediaStatus
-import com.anishuu.ui.base.BaseSeriesAdapter
+import com.anishuu.ui.base.adapter.BaseSeriesAdapter
 
 /**
  * Adapter for search results when a user searches for a manga on Anilist.

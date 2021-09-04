@@ -4,8 +4,6 @@
 package com.anishuu.ui.collection.manga.details
 
 import android.os.Bundle
-import android.text.Html
-import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +13,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
+import com.anishuu.util.convertHtmlTextToSpanned
 import com.anishuu.AnishuuApplication
 import com.anishuu.R
 import com.anishuu.databinding.MangaSeriesDetailsFragmentBinding
@@ -64,19 +62,16 @@ class MangaSeriesDetailsFragment : Fragment() {
             // Set the button text to be "Add" or "Edit" depending on whether the series is already stored in the database.
             if (selected.title?.romaji != null) {
                 mangaViewModel.getSeries(selected.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
-                    binding.collectionButton.text = getString(if (manga != null) R.string.edit_collection else R.string.add_to_collection)
+                    val res: Int
+                    if (manga != null) {
+                        res = R.string.action_button_edit_collection
+                    } else {
+                        res = R.string.action_button_add_to_collection
+                    }
+
+                    binding.collectionButton.setText(getString(res))
                 })
             }
         }
-    }
-
-    /**
-     * Converts the HTML text to a Spanned object.
-     *
-     * @param text The text to convert.
-     * @return The HTML text as a Spanned object
-     */
-    private fun convertHtmlTextToSpanned(text: String?): Spanned {
-        return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY)
     }
 }
