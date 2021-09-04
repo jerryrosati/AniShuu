@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.anishuu.SearchMangaQuery
 import com.anishuu.apolloClient
+import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
+import com.apollographql.apollo.rx3.rxQuery
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -19,8 +22,7 @@ import timber.log.Timber
  * @property selected The selected [SearchMangaQuery.Medium] object.
  */
 class SharedMangaDetailsViewModel : ViewModel() {
-    val selected = MutableLiveData<SearchMangaQuery.Medium>()
-        // get() = _selected
+    private lateinit var selected: SearchMangaQuery.Medium
 
     /**
      * Set the selected Manga series.
@@ -28,7 +30,11 @@ class SharedMangaDetailsViewModel : ViewModel() {
      * @param series The selected series.
      */
     fun select(series: SearchMangaQuery.Medium) {
-        selected.value = series
+        selected = series
+    }
+
+    fun getSelected(): SearchMangaQuery.Medium {
+        return selected
     }
 
     /**
@@ -36,16 +42,8 @@ class SharedMangaDetailsViewModel : ViewModel() {
      *
      * @param id The Anilist ID of the series.
      */
-    fun getMangaById(id: Int) = viewModelScope.launch {
-        val response = try {
-            apolloClient.query(SearchMangaQuery(id = id.toInput()))
-                .await()
-        } catch (e: ApolloException) {
-            Timber.d("Failed to get manga with id $id: $e")
-            null
-        }
-
-        val mangaResults = response?.data?.page?.media?.filterNotNull()
-        selected.value = mangaResults?.first()
+    fun getMangaById(id: Int): Observable<Response<SearchMangaQuery.Data>> {
+        val query = SearchMangaQuery(id = id.toInput())
+        return apolloClient.rxQuery(query)
     }
 }

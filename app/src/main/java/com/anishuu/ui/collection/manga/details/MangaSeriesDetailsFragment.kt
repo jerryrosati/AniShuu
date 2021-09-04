@@ -50,24 +50,24 @@ class MangaSeriesDetailsFragment : Fragment() {
         }
 
         // Update the displayed manga details.
-        sharedModel.selected.observe(viewLifecycleOwner, Observer {
+        val selected = sharedModel.getSelected()
+        if (selected != null) {
             // Update the cover image.
-            binding.coverImage.load(it.coverImage?.extraLarge)
+            binding.coverImage.load(selected.coverImage?.extraLarge)
 
             // Update the displayed details.
-            binding.mangaTitle.text = it.title?.romaji
-            binding.mangaDescription.text = convertHtmlTextToSpanned(it.description)
-            binding.status.text = it.status?.name
-            binding.startDate.text = getString(R.string.manga_result_details_date, it.startDate?.month, it.startDate?.day, it.startDate?.year)
+            binding.mangaTitle.text = selected.title?.romaji
+            binding.mangaDescription.text = convertHtmlTextToSpanned(selected.description)
+            binding.status.text = selected.status?.name
+            binding.startDate.text = getString(R.string.manga_result_details_date, selected.startDate?.month, selected.startDate?.day, selected.startDate?.year)
 
-            // If the series is already in the collection, then change the "Add to collection" button to an "Edit Collection" button.
-            if (it.title?.romaji != null) {
-                // TODO: 3/27/2020 Cache the manga details when saving to the collection and move this to when the user clicks on a manga in the collection.
-                mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
+            // Set the button text to be "Add" or "Edit" depending on whether the series is already stored in the database.
+            if (selected.title?.romaji != null) {
+                mangaViewModel.getSeries(selected.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
                     binding.collectionButton.text = getString(if (manga != null) R.string.edit_collection else R.string.add_to_collection)
                 })
             }
-        })
+        }
     }
 
     /**

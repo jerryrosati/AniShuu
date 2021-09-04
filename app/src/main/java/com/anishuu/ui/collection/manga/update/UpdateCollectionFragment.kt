@@ -72,7 +72,7 @@ class UpdateCollectionFragment : Fragment() {
         val mangaViewModel = ViewModelProvider(requireActivity(), mangaViewModelFactory)
             .get(MangaViewModel::class.java)
 
-        // Get the selected series from the database.
+        /*// Get the selected series from the database.
         seriesLiveData = Transformations.switchMap(model.selected) {
             selectedMedia = it
             seriesTitleFromDatabase = it?.title?.romaji
@@ -213,6 +213,6 @@ class UpdateCollectionFragment : Fragment() {
             } else {
                 Toast.makeText(view.context, getString(R.string.title_required), Toast.LENGTH_SHORT).show()
             }
-        }
+        }*/
     }
 }

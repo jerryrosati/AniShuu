@@ -46,12 +46,11 @@ class MangaSeriesFragment : Fragment() {
         }.attach()
 
         // Update the banner image.
-        sharedModel.selected.observe(viewLifecycleOwner, Observer {
-            if (it.bannerImage.isNullOrEmpty()) {
-                binding.bannerImage.visibility = View.GONE
-            } else {
-                binding.bannerImage.load(it.bannerImage)
-            }
-        })
+        val selected = sharedModel.getSelected()
+        if (selected.bannerImage.isNullOrEmpty()) {
+            binding.bannerImage.visibility = View.GONE
+        } else {
+            binding.bannerImage.load(selected.bannerImage)
+        }
     }
 }

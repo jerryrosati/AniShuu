@@ -91,6 +91,13 @@ class CollectionFragment : Fragment() {
         // Navigate to the Manga details screen when a title is clicked.
         adapter = MangaCollectionAdapter({ manga ->
             selectedMangaViewModel.getMangaById(manga.series.anilistID)
+                .subscribeOn(Schedulers.io())
+                .subscribe { response ->
+                    val results = response.data?.page?.media?.filterNotNull()
+                    if (!results.isNullOrEmpty()) {
+                        selectedMangaViewModel.select(results.first())
+                    }
+                }
             val action = CollectionFragmentDirections.viewSeries()
             findNavController().navigate(action)
         }, { manga ->
@@ -120,7 +127,7 @@ class CollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         // Update Manga adapter data when the view model is updated.
         mangaViewModel.getAllSeries()
             .subscribeOn(Schedulers.io())

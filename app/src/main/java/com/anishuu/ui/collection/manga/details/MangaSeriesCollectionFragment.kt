@@ -51,15 +51,14 @@ class MangaSeriesCollectionFragment : Fragment() {
             .get(MangaViewModel::class.java)
 
         // Update the displayed manga details.
-        sharedModel.selected.observe(viewLifecycleOwner, Observer {
-            // If the series is already in the collection, then change the "Add to collection" button to an "Edit Collection" button.
-            if (it.title?.romaji != null) {
-                mangaViewModel.getSeries(it.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
-                    binding.ownedVolumeHeader.visibility = if (manga != null) View.VISIBLE else View.GONE
-                    binding.ownedVolumes.visibility = if (manga != null) View.VISIBLE else View.GONE
-                    manga?.volumes?.let { volumes -> adapter.submitList(volumes) }
-                })
-            }
-        })
+        // If the series is already in the collection, then change the "Add to collection" button to an "Edit Collection" button.
+        val selected = sharedModel.getSelected()
+        if (selected.title?.romaji != null) {
+            mangaViewModel.getSeries(selected.title.romaji).observe(viewLifecycleOwner, Observer { manga ->
+                binding.ownedVolumeHeader.visibility = if (manga != null) View.VISIBLE else View.GONE
+                binding.ownedVolumes.visibility = if (manga != null) View.VISIBLE else View.GONE
+                manga?.volumes?.let { volumes -> adapter.submitList(volumes) }
+            })
+        }
     }
 }

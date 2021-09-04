@@ -48,7 +48,6 @@ class MangaSearchFragment : Fragment() {
         // Navigate to the Manga Details screen when a search result is clicked.
         adapter = MangaResultsAdapter() {
             sharedModel.select(it)
-
             val action = MangaSearchFragmentDirections.viewResultDetails()
             findNavController().navigate(action)
         }
